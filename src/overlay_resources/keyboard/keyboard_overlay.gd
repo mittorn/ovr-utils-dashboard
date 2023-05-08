@@ -1,23 +1,30 @@
 extends Control
 
 const OVERLAY_PROPERTIES = {
-	"has_touch": true,
+#	"has_touch": true,
+	"has_cursor" : true,
+		"width": 1900*0.5,
+	"height": 700*0.5,
 }
 
-export var key_size := 100
+export var key_size := 50
 export var key_row : PackedScene
 export var key_button : PackedScene
 export var row_container_path : NodePath
 
 var row_container
-
 var keymap := {}
 var toggle_keys := []
 
 func _ready():
 	row_container = get_node(row_container_path)
-	load_keys("res://overlay_resources/keyboard/layouts/layout_se.json")
+	load_keys("res://overlay_resources/keyboard/layouts/layout_usru.json")
+	OverlayManager.connect("toggle_kb", self, "_toggle_kb")
 
+func _toggle_kb():
+	print("toggle_kb")
+	var p = get_parent().get_parent().get_parent()
+	p.overlay_visible = !p.overlay_visible #!get_parent().overlay_visible                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
 func load_keys(fp: String):
 	var file = File.new()

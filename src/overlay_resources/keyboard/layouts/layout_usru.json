@@ -1,0 +1,408 @@
+{
+	"rows": [
+		{
+			"gap": 0.5,
+			"keys": [
+				{
+					"keycode": "ESCAPE",
+					"display": "Esc",
+					"gap": 1
+				},
+				{
+					"keycode": "F1",
+					"display": "F1"
+				},
+				{
+					"keycode": "F2",
+					"display": "F2"
+				},
+				{
+					"keycode": "F3",
+					"display": "F3"
+				},
+				{
+					"keycode": "F4",
+					"display": "F4",
+					"gap": 0.5
+				},
+				{
+					"keycode": "F5",
+					"display": "F5"
+				},
+				{
+					"keycode": "F6",
+					"display": "F6"
+				},
+				{
+					"keycode": "F7",
+					"display": "F7"
+				},
+				{
+					"keycode": "F8",
+					"display": "F8",
+					"gap": 0.5
+				},
+				{
+					"keycode": "F9",
+					"display": "F9"
+				},
+				{
+					"keycode": "F10",
+					"display": "F10"
+				},
+				{
+					"keycode": "F11",
+					"display": "F11"
+				},
+				{
+					"keycode": "F12",
+					"display": "F12",
+					"gap":  0.5
+				},
+				{
+					"keycode": "PRINT",
+					"display": "Print\nScrn"
+				}
+			]
+		},
+		{
+			"keys": [
+				{
+					"keycode": "ASCIITILDE",
+					"display": "~ `\n Ё"
+				},
+				{
+					
+					"keycode": "1",
+					"display": "!\n1"
+				},
+				{
+					"keycode": "2",
+					"display": "@\n2"
+				},
+				{
+					"keycode": "3",
+					"display": "# №\n3"
+				},
+				{
+					"keycode": "4",
+					"display": "$  ;\n4"
+				},
+				{
+					"keycode": "5",
+					"display": "%\n5"
+				},
+				{
+					"keycode": "6",
+					"display": "^  :\n6"
+				},
+				{
+					"keycode": "7",
+					"display": "& ?\n7"
+				},
+				{
+					"keycode": "8",
+					"display": "*\n8"
+				},
+				{
+					"keycode": "9",
+					"display": "(\n9"
+				},
+				{
+					"keycode": "0",
+					"display": ")\n0"
+				},
+				{
+					"keycode": "MINUS",
+					"display": "_\n-"
+				},
+				{
+					"keycode": "EQUAL",
+					"display": "+\n="
+				},
+				{
+					"keycode": "BACKSPACE",
+					"display": "Backspace",
+					"width": 2,
+					"gap": 0.5
+				},
+				{
+					"keycode": "INSERT",
+					"display": "Ins"
+				},
+				{
+					"keycode": "HOME",
+					"display": "Home"
+				},
+				{
+					"keycode": "PAGE_UP",
+					"display": "Page\nUp"
+				}
+			]
+		},
+		{
+			"keys": [
+				{
+					"keycode": "TAB",
+					"display": "->",
+					"width": 1.5
+				},
+				{
+					"keycode": "Q",
+					"display": "Q\n Й"
+				},
+				{
+					"keycode": "W",
+					"display": "W\n Ц"
+				},
+				{
+					"keycode": "E",
+					"display": "E\n У"
+				},
+				{
+					"keycode": "R",
+					"display": "R\n К"
+				},
+				{
+					"keycode": "T",
+					"display": "T\n Е"
+				},
+				{
+					"keycode": "Y",
+					"display": "Y\n Н"
+				},
+				{
+					"keycode": "U",
+					"display": "U\n Г"
+				},
+				{
+					"keycode": "I",
+					"display": "I\n Ш"
+				},
+				{
+					"keycode": "O",
+					"display": "O\n Щ"
+				},
+				{
+					"keycode": "P",
+					"display": "P\n З"
+				},
+				{
+					"keycode": "BRACKET_LEFT",
+					"display": "[\n Х",
+				},
+				{
+					"keycode": "BRACKET_RIGHT",
+					"display": "]\n Ъ"
+				},
+				{
+					"keycode": "ENTER",
+					"display": "",
+					"width": 1.5,
+					"gap": 0.5
+				},
+				{
+					"keycode": "DELETE",
+					"display": "Del"
+				},
+				{
+					"keycode": "END",
+					"display": "End"
+				},
+				{
+					"keycode": "PAGE_DOWN",
+					"display": "Page\nDown"
+				}
+			]
+		},
+		{
+			"keys": [
+				{
+					"keycode": "CAPSLOCK",
+					"display": "CAPS",
+					"width": 1.75
+				},
+				{
+					"keycode": "A",
+					"display": "A\n Ф"
+				},
+				{
+					"keycode": "S",
+					"display": "S\n Ы"
+				},
+				{
+					"keycode": "D",
+					"display": "D\n В"
+				},
+				{
+					"keycode": "F",
+					"display": "F\n А"
+				},
+				{
+					"keycode": "G",
+					"display": "G\n П"
+				},
+				{
+					"keycode": "H",
+					"display": "H\n Р"
+				},
+				{
+					"keycode": "J",
+					"display": "J\n О"
+				},
+				{
+					"keycode": "K",
+					"display": "K\n Л"
+				},
+				{
+					"keycode": "L",
+					"display": "L\n Д"
+				},
+				{
+					"keycode": "SEMICOLON",
+					"display": ";\n Ж"
+				},
+				{
+					"keycode": "APOSTROPHE",
+					"display": "\'\n Э"
+				},
+				{
+					"keycode": "BACKSLASH",
+					"display": "|  \\\n/",
+					"width": 1
+				},
+				{
+					"keycode": "ENTER",
+					"display": "Enter",
+					"width": 1.25
+				}
+			]
+		},
+		{
+			"keys": [
+				{
+					"keycode": "SHIFT",
+					"display": "^",
+					"toggle": true,
+					"width": 2.25
+				},
+				{
+					"keycode": "Z",
+					"display": "Z\n Я"
+				},
+				{
+					"keycode": "X",
+					"display": "X\n Ч"
+				},
+				{
+					"keycode": "C",
+					"display": "C\n C"
+				},
+				{
+					"keycode": "V",
+					"display": "V\n М"
+				},
+				{
+					"keycode": "B",
+					"display": "B\n И"
+				},
+				{
+					"keycode": "N",
+					"display": "N\n Т"
+				},
+				{
+					"keycode": "M",
+					"display": "M\n Ь"
+				},
+				{
+					"keycode": "COMMA",
+					"display": "<\n,  Б"
+				},
+				{
+					"keycode": "PERIOD",
+					"display": ">\n.  Ю"
+				},
+				{
+					"keycode": "SLASH",
+					"display": "? .\n/  ,"
+				},
+				{
+					"keycode": "SHIFT",
+					"display": "Shift",
+					"toggle": true,
+					"width": 2.75,
+					"gap": 1.5
+				},
+				{
+					"keycode": "UP",
+					"display": "^"
+				}
+
+			]
+		},
+		{
+			"keys": [
+				{
+					"keycode": "CONTROL",
+					"display": "Ctrl",
+					"toggle": true,
+					"width": 1.5
+				},
+				{
+					"keycode": "SUPER",
+					"display": "Sup",
+					"toggle": true,
+					"width": 1.25
+				},
+				{
+					"keycode": "ALT",
+					"display": "Alt",
+					"toggle": true,
+					"width": 1.25
+				},
+				{
+					"keycode": "SPACE",
+					"display": "",
+					"width": 5.75
+				},
+				{
+					"keycode": "ALT",
+					"display": "Alt",
+					"toggle": true,
+					"width": 1.25
+				},
+				{
+					"keycode": "SUPER",
+					"display": "Sup",
+					"toggle": true,
+					"width": 1.25
+				},
+				{
+					"keycode": "MENU",
+					"display": "Menu",
+					"width": 1.25
+				},
+				{
+					"keycode": "CONTROL",
+					"display": "Ctrl",
+					"toggle": true,
+					"width": 1.5,
+					"gap": 0.5
+				},
+				{
+					"keycode": "LEFT",
+					"display": "\n<"
+				},
+				{
+					"keycode": "DOWN",
+					"display": "\nv"
+				},
+				{
+					"keycode": "RIGHT",
+					"display": "\n>"
+				}
+
+			]
+		}
+	]
+}
