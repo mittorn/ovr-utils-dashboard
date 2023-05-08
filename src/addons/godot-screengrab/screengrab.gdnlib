@@ -1,0 +1,18 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=true
+
+[entry]
+
+Windows.64="res://addons/godot-screengrab/windows/libscreengrab.dll"
+X11.64="res://addons/godot-screengrab/linux/libscreengrab.so"
+OSX.64="res://addons/godot-screengrab/osx/libscreengrab.dylib"
+
+[dependencies]
+
+Windows.64=[  ]
+X11.64=[  ]
+OSX.64=[  ]
