@@ -1,0 +1,140 @@
+diff --git a/src/ARVRInterface.cpp b/src/ARVRInterface.cpp
+index add3014..c901951 100644
+--- a/src/ARVRInterface.cpp
++++ b/src/ARVRInterface.cpp
+@@ -117,7 +117,7 @@ godot_vector2 godot_arvr_get_render_targetsize(const void *p_data) {
+ 		// TODO: we should periodically check if the recommended size has changed (the user can adjust this) and if so update our width/height
+ 		// and reset our render texture (RID)
+ 
+-		godot::api->godot_vector2_new(&size, (real_t)arvr_data->width, (real_t)arvr_data->height);
++		godot::api->godot_vector2_new(&size, override_width, override_height); //(real_t)arvr_data->width, (real_t)arvr_data->height);
+ 	} else {
+ 		godot::api->godot_vector2_new(&size, 500.0f, 500.0f);
+ 	}
+diff --git a/src/open_vr/OpenVRConfig.cpp b/src/open_vr/OpenVRConfig.cpp
+index d1fe35c..adaf6f4 100644
+--- a/src/open_vr/OpenVRConfig.cpp
++++ b/src/open_vr/OpenVRConfig.cpp
+@@ -28,6 +28,7 @@ void OpenVRConfig::_register_methods() {
+ 
+ 	register_method("get_device_battery_percentage", &OpenVRConfig::get_device_battery_percentage);
+ 	register_method("is_device_charging", &OpenVRConfig::is_device_charging);
++	register_method("set_global_overlay_input", &OpenVRConfig::set_global_overlay_input);
+ }
+ 
+ void OpenVRConfig::_init() {
+@@ -50,6 +51,10 @@ int OpenVRConfig::get_application_type() const {
+ 	return ovr->get_application_type();
+ }
+ 
++void OpenVRConfig::set_global_overlay_input(bool state) const {
++    ovr->global_overlay_input = state;
++}
++
+ void OpenVRConfig::set_application_type(int p_type) {
+ 	ovr->set_application_type((openvr_data::OpenVRApplicationType)p_type);
+ }
+diff --git a/src/open_vr/OpenVRConfig.h b/src/open_vr/OpenVRConfig.h
+index f118b36..f10f5ea 100644
+--- a/src/open_vr/OpenVRConfig.h
++++ b/src/open_vr/OpenVRConfig.h
+@@ -46,6 +46,7 @@ public:
+ 
+ 	float get_device_battery_percentage(vr::TrackedDeviceIndex_t p_tracked_device_index);
+ 	bool is_device_charging(vr::TrackedDeviceIndex_t p_tracked_device_index);
++	void set_global_overlay_input(bool state) const;
+ };
+ } // namespace godot
+ 
+diff --git a/src/open_vr/OpenVROverlay.cpp b/src/open_vr/OpenVROverlay.cpp
+index a8bc4cd..73f4108 100644
+--- a/src/open_vr/OpenVROverlay.cpp
++++ b/src/open_vr/OpenVROverlay.cpp
+@@ -19,8 +19,15 @@ void OpenVROverlay::_register_methods() {
+ 
+ 	register_method("track_relative_to_device", &OpenVROverlay::track_relative_to_device);
+ 	register_method("overlay_position_absolute", &OpenVROverlay::overlay_position_absolute);
++	register_method("set_overlay_flag", &OpenVROverlay::set_overlay_flag);
++	register_method("set_override_size", &OpenVROverlay::set_override_size);
+ }
+ 
++int override_width, override_height;
++void OpenVROverlay::set_override_size(int width, int height)
++{
++	override_width = width, override_height = height;
++}
+ OpenVROverlay::OpenVROverlay() {
+ 	ovr = openvr_data::retain_singleton();
+ }
+@@ -124,6 +131,17 @@ void OpenVROverlay::set_overlay_visible(bool p_visible) {
+ 	}
+ }
+ 
++void OpenVROverlay::set_overlay_flag(int flag, bool enabled) {
++	if (overlay) {
++		vr::EVROverlayError vrerr = vr::VROverlay()->SetOverlayFlag(overlay,(vr::VROverlayFlags)flag, enabled);
++
++		if (vrerr != vr::VROverlayError_None) {
++			Godot::print(String("Could not set overlay flag, OpenVR error: ") + String::num_int64(vrerr) + ", " + String(vr::VROverlay()->GetOverlayErrorNameFromEnum(vrerr)));
++		}
++	}
++}
++
++
+ bool OpenVROverlay::track_relative_to_device(vr::TrackedDeviceIndex_t p_tracked_device_index, Transform p_transform) {
+ 	if (overlay) {
+ 		vr::HmdMatrix34_t matrix;
+diff --git a/src/open_vr/OpenVROverlay.h b/src/open_vr/OpenVROverlay.h
+index ad3f3a1..5769552 100644
+--- a/src/open_vr/OpenVROverlay.h
++++ b/src/open_vr/OpenVROverlay.h
+@@ -7,6 +7,8 @@
+ #include "godot_openvr.h"
+ #include <ProjectSettings.hpp>
+ #include <Viewport.hpp>
++extern int override_width, override_height;
++
+ 
+ namespace godot {
+ class OpenVROverlay : public Viewport {
+@@ -38,6 +40,8 @@ public:
+ 
+ 	bool track_relative_to_device(vr::TrackedDeviceIndex_t p_tracked_device_index, Transform p_transform);
+ 	bool overlay_position_absolute(Transform p_transform);
++	void set_overlay_flag(int flag, bool enabled);
++	void set_override_size(int width, int height);
+ };
+ } // namespace godot
+ 
+diff --git a/src/open_vr/openvr_data.cpp b/src/open_vr/openvr_data.cpp
+index 1c71baa..cdeb20a 100644
+--- a/src/open_vr/openvr_data.cpp
++++ b/src/open_vr/openvr_data.cpp
+@@ -335,6 +335,7 @@ void openvr_data::process() {
+ 		for (int i = 0; i < action_sets.size(); i++) {
+ 			if (action_sets[i].is_active) {
+ 				vr::VRActiveActionSet_t actionSet = { 0 };
++				actionSet.nPriority = global_overlay_input?0x01000001:0;
+ 				actionSet.ulActionSet = action_sets[i].handle;
+ 
+ 				active_action_sets[current_index] = actionSet;
+@@ -345,6 +346,7 @@ void openvr_data::process() {
+ 		// Pass the array to OpenVR
+ 		if (current_index == active_action_set_count) {
+ 			vr::VRInput()->UpdateActionState(active_action_sets.data(), sizeof(vr::VRActiveActionSet_t), active_action_set_count);
++//			printf("updated %d action sets\n", active_action_set_count);
+ 		}
+ 	}
+ 
+diff --git a/src/open_vr/openvr_data.h b/src/open_vr/openvr_data.h
+index bec0dc9..e76f5c0 100644
+--- a/src/open_vr/openvr_data.h
++++ b/src/open_vr/openvr_data.h
+@@ -159,6 +159,7 @@ private:
+ 
+ public:
+ 	vr::IVRSystem *hmd; // make this private?
++	bool global_overlay_input;
+ 
+ 	openvr_data();
+ 	~openvr_data();
