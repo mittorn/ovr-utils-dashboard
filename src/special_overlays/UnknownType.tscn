@@ -28,3 +28,6 @@ text = "Missing overlay scene:
 align = 1
 valign = 1
 autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -36,14 +36,12 @@ __meta__ = {
 }
 
 [node name="CenterContainer" type="CenterContainer" parent="PanelContainer"]
-margin_right = 2048.0
-margin_bottom = 2048.0
+margin_right = 1780.0
+margin_bottom = 349.0
 
 [node name="ColorRect" type="PanelContainer" parent="PanelContainer/CenterContainer"]
-margin_left = 134.0
-margin_top = 849.0
-margin_right = 1914.0
-margin_bottom = 1198.0
+margin_right = 1780.0
+margin_bottom = 349.0
 grow_horizontal = 2
 size_flags_horizontal = 0
 custom_styles/panel = SubResource( 2 )
