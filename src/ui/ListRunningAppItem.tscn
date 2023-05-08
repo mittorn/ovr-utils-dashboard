@@ -1,0 +1,101 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://ui/running_app_item.gd" type="Script" id=1]
+[ext_resource path="res://styles/menu.theme" type="Theme" id=9]
+[ext_resource path="res://icons/close.svg" type="Texture" id=11]
+[ext_resource path="res://icons/warning.svg" type="Texture" id=15]
+[ext_resource path="res://fonts/OpenSans-Italic.ttf" type="DynamicFontData" id=16]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 16 )
+
+[node name="ListRunningAppItem" type="MarginContainer"]
+margin_top = 1725.0
+margin_right = 2048.0
+margin_bottom = 1933.0
+rect_min_size = Vector2( 100, 128 )
+theme = ExtResource( 9 )
+custom_constants/margin_top = 8
+custom_constants/margin_bottom = 8
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+app_name = "test_app_name"
+app_key = "test_app_key"
+
+[node name="BasicOptions" type="PanelContainer" parent="."]
+margin_top = 8.0
+margin_right = 2048.0
+margin_bottom = 200.0
+
+[node name="Label" type="Label" parent="BasicOptions"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 2040.0
+margin_bottom = 96.0
+size_flags_vertical = 0
+text = "App Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="BasicOptions"]
+margin_left = 8.0
+margin_top = 96.0
+margin_right = 2040.0
+margin_bottom = 184.0
+size_flags_vertical = 8
+text = "App key"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="List" type="HBoxContainer" parent="BasicOptions"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 2040.0
+margin_bottom = 184.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Warning" type="Button" parent="BasicOptions/List"]
+visible = false
+margin_left = 1316.0
+margin_right = 1492.0
+margin_bottom = 191.0
+toggle_mode = true
+icon = ExtResource( 15 )
+
+[node name="WarningInfo" type="PanelContainer" parent="BasicOptions/List/Warning"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -191.0
+margin_top = -165.0
+margin_right = 122.0
+margin_bottom = -203.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="BasicOptions/List/Warning/WarningInfo"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 481.0
+margin_bottom = 145.0
+custom_fonts/font = SubResource( 1 )
+text = "res://overlays/not_real
+not found"
+
+[node name="Kill" type="Button" parent="BasicOptions/List"]
+margin_left = 1856.0
+margin_right = 2032.0
+margin_bottom = 176.0
+icon = ExtResource( 11 )
+
+[connection signal="toggled" from="BasicOptions/List/Warning" to="." method="_on_Warning_toggled"]
+[connection signal="pressed" from="BasicOptions/List/Kill" to="." method="_on_Kill_pressed"]

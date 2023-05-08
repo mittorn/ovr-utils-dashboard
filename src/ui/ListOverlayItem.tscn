@@ -22,9 +22,9 @@ size = 48
 font_data = ExtResource( 16 )
 
 [node name="ListOverlayItem" type="MarginContainer"]
-margin_top = 1727.0
+margin_top = 1725.0
 margin_right = 2048.0
-margin_bottom = 1920.0
+margin_bottom = 1933.0
 rect_min_size = Vector2( 100, 128 )
 theme = ExtResource( 9 )
 custom_constants/margin_top = 8
@@ -37,13 +37,13 @@ __meta__ = {
 [node name="BasicOptions" type="PanelContainer" parent="."]
 margin_top = 8.0
 margin_right = 2048.0
-margin_bottom = 215.0
+margin_bottom = 200.0
 
 [node name="Label" type="Label" parent="BasicOptions"]
 margin_left = 8.0
-margin_top = 16.0
+margin_top = 52.0
 margin_right = 2040.0
-margin_bottom = 191.0
+margin_bottom = 140.0
 text = "Main Menu"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -53,7 +53,7 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 2040.0
-margin_bottom = 199.0
+margin_bottom = 184.0
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -91,7 +91,7 @@ not found"
 [node name="Grab" type="Button" parent="BasicOptions/List"]
 margin_left = 1496.0
 margin_right = 1672.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 toggle_mode = true
 icon = ExtResource( 3 )
@@ -99,7 +99,7 @@ icon = ExtResource( 3 )
 [node name="Visibility" type="Button" parent="BasicOptions/List"]
 margin_left = 1676.0
 margin_right = 1852.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 toggle_mode = true
 pressed = true
@@ -108,48 +108,48 @@ icon = ExtResource( 8 )
 [node name="Options" type="Button" parent="BasicOptions/List"]
 margin_left = 1856.0
 margin_right = 2032.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 icon = ExtResource( 10 )
 
 [node name="MoreOptions" type="HSplitContainer" parent="."]
 margin_top = 8.0
 margin_right = 2048.0
-margin_bottom = 215.0
+margin_bottom = 200.0
 
 [node name="Spacer" type="Control" parent="MoreOptions"]
 margin_right = 760.0
-margin_bottom = 207.0
+margin_bottom = 192.0
 size_flags_horizontal = 3
 
 [node name="Container" type="PanelContainer" parent="MoreOptions"]
 margin_left = 772.0
 margin_right = 2048.0
-margin_bottom = 207.0
+margin_bottom = 192.0
 
 [node name="List" type="HBoxContainer" parent="MoreOptions/Container"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 1268.0
-margin_bottom = 199.0
+margin_bottom = 184.0
 alignment = 2
 
 [node name="Remove" type="Button" parent="MoreOptions/Container/List"]
 margin_right = 176.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 icon = ExtResource( 2 )
 
 [node name="Grab" type="Button" parent="MoreOptions/Container/List"]
 margin_left = 180.0
 margin_right = 356.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 toggle_mode = true
 icon = ExtResource( 3 )
 
 [node name="SetSize" type="Button" parent="MoreOptions/Container/List"]
 margin_left = 360.0
 margin_right = 536.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 toggle_mode = true
 icon = ExtResource( 4 )
@@ -170,7 +170,7 @@ margin_top = 8.0
 margin_right = 168.0
 margin_bottom = 891.0
 min_value = 0.1
-max_value = 1.0
+max_value = 2.0
 step = 0.05
 value = 0.4
 scrollable = false
@@ -181,7 +181,7 @@ __meta__ = {
 [node name="SetAlpha" type="Button" parent="MoreOptions/Container/List"]
 margin_left = 540.0
 margin_right = 716.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 toggle_mode = true
 icon = ExtResource( 12 )
@@ -214,7 +214,7 @@ __meta__ = {
 [node name="Target" type="OptionButton" parent="MoreOptions/Container/List"]
 margin_left = 720.0
 margin_right = 900.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 text = "Left"
 icon = ExtResource( 13 )
@@ -225,14 +225,14 @@ selected = 1
 [node name="Reset" type="Button" parent="MoreOptions/Container/List"]
 margin_left = 904.0
 margin_right = 1080.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 icon = ExtResource( 5 )
 
 [node name="CloseOptions" type="Button" parent="MoreOptions/Container/List"]
 margin_left = 1084.0
 margin_right = 1260.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 icon = ExtResource( 11 )
 

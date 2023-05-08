@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://overlay_resources/main_menu.gd" type="Script" id=1]
 [ext_resource path="res://icons/move.svg" type="Texture" id=2]
@@ -8,99 +8,71 @@
 [ext_resource path="res://ui/ListOverlayItem.tscn" type="PackedScene" id=6]
 [ext_resource path="res://styles/menu.theme" type="Theme" id=7]
 [ext_resource path="res://ui/AddMenu.tscn" type="PackedScene" id=8]
+[ext_resource path="res://ui/ListRunningAppItem.tscn" type="PackedScene" id=9]
+[ext_resource path="res://icons/reset.svg" type="Texture" id=10]
+[ext_resource path="res://ui/overlay_list_item.gd" type="Script" id=11]
 
 [node name="MainOverlay" type="Control"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_min_size = Vector2( 2048, 2048 )
+rect_scale = Vector2( 0.5, 0.5 )
 theme = ExtResource( 7 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 8
-custom_constants/margin_top = 8
-custom_constants/margin_left = 8
-custom_constants/margin_bottom = 8
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer"]
+[node name="MainBar" type="HBoxContainer" parent="."]
 margin_left = 8.0
-margin_top = 8.0
-margin_right = 2040.0
-margin_bottom = 2040.0
-dragger_visibility = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Control" type="Control" parent="MarginContainer/VSplitContainer"]
-margin_right = 2032.0
-margin_bottom = 1841.0
-size_flags_vertical = 3
-
-[node name="Overlays" type="VBoxContainer" parent="MarginContainer/VSplitContainer/Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_vertical = 3
+margin_top = 1872.0
+margin_right = 904.0
+margin_bottom = 2048.0
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ListOverlayItem" parent="MarginContainer/VSplitContainer/Control/Overlays" instance=ExtResource( 6 )]
-margin_top = 1618.0
-margin_right = 2032.0
-margin_bottom = 1841.0
-overlay_name = "MainOverlay"
-
-[node name="AddMenu" parent="MarginContainer/VSplitContainer/Control" instance=ExtResource( 8 )]
-visible = false
-
-[node name="MainBar" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
-margin_top = 1841.0
-margin_right = 2032.0
-margin_bottom = 2032.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ShowOverlays" type="Button" parent="MarginContainer/VSplitContainer/MainBar"]
+[node name="ShowOverlays" type="Button" parent="MainBar"]
 margin_right = 176.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 toggle_mode = true
 icon = ExtResource( 3 )
 
-[node name="AddOverlay" type="Button" parent="MarginContainer/VSplitContainer/MainBar"]
+[node name="AddOverlay" type="Button" parent="MainBar"]
 margin_left = 180.0
 margin_right = 356.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 toggle_mode = true
 icon = ExtResource( 5 )
 
-[node name="GrabMode" type="Button" parent="MarginContainer/VSplitContainer/MainBar"]
+[node name="GrabMode" type="Button" parent="MainBar"]
 margin_left = 360.0
 margin_right = 536.0
-margin_bottom = 191.0
+margin_bottom = 176.0
 focus_mode = 0
 toggle_mode = true
+action_mode = 0
 icon = ExtResource( 2 )
 
-[node name="QuitToggle" type="Button" parent="MarginContainer/VSplitContainer/MainBar"]
+[node name="Recenter" type="Button" parent="MainBar"]
 margin_left = 540.0
 margin_right = 716.0
-margin_bottom = 191.0
+margin_bottom = 176.0
+icon = ExtResource( 10 )
+
+[node name="QuitToggle" type="Button" parent="MainBar"]
+margin_left = 720.0
+margin_right = 896.0
+margin_bottom = 176.0
+rect_pivot_offset = Vector2( -1562, 41 )
 toggle_mode = true
 icon = ExtResource( 4 )
 
-[node name="Quit" type="Button" parent="MarginContainer/VSplitContainer/MainBar/QuitToggle"]
+[node name="Quit" type="Button" parent="MainBar/QuitToggle"]
 visible = false
 margin_left = -4.0
 margin_top = -199.0
@@ -112,9 +84,127 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="add_menu_closed" from="MarginContainer/VSplitContainer/Control/AddMenu" to="." method="_on_add_menu_closed"]
-[connection signal="toggled" from="MarginContainer/VSplitContainer/MainBar/ShowOverlays" to="." method="_on_ShowOverlays_toggled"]
-[connection signal="toggled" from="MarginContainer/VSplitContainer/MainBar/AddOverlay" to="." method="_on_AddOverlay_toggled"]
-[connection signal="toggled" from="MarginContainer/VSplitContainer/MainBar/GrabMode" to="." method="_on_GrabMode_toggled"]
-[connection signal="toggled" from="MarginContainer/VSplitContainer/MainBar/QuitToggle" to="." method="_on_QuitToggle_toggled"]
-[connection signal="pressed" from="MarginContainer/VSplitContainer/MainBar/QuitToggle/Quit" to="." method="_on_Quit_pressed"]
+[node name="Control2" type="Control" parent="."]
+margin_left = 8.0
+margin_top = 176.0
+margin_right = 8.0
+margin_bottom = 176.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="MarginContainer" parent="."]
+margin_right = 2048.0
+margin_bottom = 1872.0
+grow_horizontal = 0
+grow_vertical = 0
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainVBox" type="VBoxContainer" parent="Control"]
+margin_left = 8.0
+margin_top = 1440.0
+margin_right = 2040.0
+margin_bottom = 1864.0
+size_flags_vertical = 10
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScriptRunner" type="PanelContainer" parent="Control/MainVBox"]
+margin_right = 2032.0
+margin_bottom = 104.0
+size_flags_vertical = 0
+theme = ExtResource( 7 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MainVBox/ScriptRunner"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 2024.0
+margin_bottom = 96.0
+
+[node name="Label" type="Label" parent="Control/MainVBox/ScriptRunner/VBoxContainer"]
+margin_right = 2016.0
+margin_bottom = 88.0
+text = "Scripts"
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/MainVBox"]
+margin_top = 108.0
+margin_right = 2032.0
+margin_bottom = 424.0
+theme = ExtResource( 7 )
+
+[node name="RunningApps" type="VBoxContainer" parent="Control/MainVBox/PanelContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 2024.0
+margin_bottom = 308.0
+size_flags_vertical = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="Control/MainVBox/PanelContainer/RunningApps"]
+margin_right = 2016.0
+margin_bottom = 88.0
+text = "Running apps"
+
+[node name="ListRunningAppItem" parent="Control/MainVBox/PanelContainer/RunningApps" instance=ExtResource( 9 )]
+margin_top = 92.0
+margin_right = 2016.0
+margin_bottom = 300.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+margin_left = 8.0
+margin_top = 1640.0
+margin_right = 2040.0
+margin_bottom = 1864.0
+size_flags_vertical = 10
+theme = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Overlays" type="VBoxContainer" parent="Control/PanelContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 2024.0
+margin_bottom = 216.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 3
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ListOverlayItem" parent="Control/PanelContainer/Overlays" instance=ExtResource( 6 )]
+margin_top = 0.0
+margin_right = 2016.0
+margin_bottom = 208.0
+script = ExtResource( 11 )
+overlay_name = "MainOverlay"
+
+[node name="AddMenu" parent="Control" instance=ExtResource( 8 )]
+anchor_top = 0.0
+anchor_bottom = 0.0
+margin_left = 8.0
+margin_top = 1680.0
+margin_right = 485.0
+margin_bottom = 1864.0
+size_flags_horizontal = 0
+size_flags_vertical = 10
+
+[connection signal="toggled" from="MainBar/ShowOverlays" to="." method="_on_ShowOverlays_toggled"]
+[connection signal="toggled" from="MainBar/AddOverlay" to="." method="_on_AddOverlay_toggled"]
+[connection signal="toggled" from="MainBar/GrabMode" to="." method="_on_GrabMode_toggled"]
+[connection signal="pressed" from="MainBar/Recenter" to="." method="_on_Recenter_pressed"]
+[connection signal="toggled" from="MainBar/QuitToggle" to="." method="_on_QuitToggle_toggled"]
+[connection signal="pressed" from="MainBar/QuitToggle/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="add_menu_closed" from="Control/AddMenu" to="." method="_on_add_menu_closed"]

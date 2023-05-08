@@ -6,9 +6,9 @@
 [node name="AddMenu" type="PanelContainer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -271.0
+margin_top = -16.0
 margin_right = 854.0
-grow_vertical = 0
+margin_bottom = 1008.0
 theme = ExtResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -19,7 +19,7 @@ __meta__ = {
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 846.0
-margin_bottom = 263.0
+margin_bottom = 1016.0
 custom_constants/margin_right = 32
 custom_constants/margin_top = 32
 custom_constants/margin_left = 32
@@ -29,17 +29,18 @@ custom_constants/margin_bottom = 32
 margin_left = 32.0
 margin_top = 32.0
 margin_right = 806.0
-margin_bottom = 223.0
+margin_bottom = 976.0
 alignment = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 840.0
 margin_right = 774.0
-margin_bottom = 191.0
+margin_bottom = 944.0
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PanelContainer"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 766.0
-margin_bottom = 183.0
+margin_bottom = 96.0
 text = "Add overlay"
 align = 1
