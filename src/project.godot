@@ -31,8 +31,11 @@ gdscript/warnings/return_value_discarded=false
 
 [display]
 
-window/size/width=2048
-window/size/height=2048
+window/size/width=16
+window/size/height=16
+window/size/borderless=true
+window/size/always_on_top=true
+window/energy_saving/keep_screen_on=false
 
 [editor_plugins]
 
@@ -55,4 +58,8 @@ singletons=[ "res://addons/godot-openvr/godot_openvr.gdnlib" ]
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
+misc/lossless_compression/force_png=true
 environment/default_environment="res://default_env.tres"
+quality/dynamic_fonts/use_oversampling=false

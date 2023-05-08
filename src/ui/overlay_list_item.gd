@@ -5,6 +5,8 @@ var overlay
 
 func _ready() -> void:
 	overlay = OverlayManager.get_node(overlay_name)
+	if(!overlay):
+		return
 	overlay.get_node("OverlaySettingsSync").connect("loaded_settings", self, "_apply_loaded")
 
 	$MoreOptions/Container/List/SetSize/PanelContainer.visible = false

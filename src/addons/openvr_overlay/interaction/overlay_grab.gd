@@ -13,7 +13,7 @@ onready var tracker_nodes = {
 	"head":  $"../VR/head",
 	"left":  $"../VR/left",
 	"right": $"../VR/right",
-	"world": $"../VR"
+	"world": $"../VR/world"
 }
 
 
@@ -43,13 +43,25 @@ func begin_move(controller="right"):
 	_pre_move_target = _overlay.current_target
 	_mover_hand_name = controller
 	_mover_hand_offsets = _overlay.get_offset(_mover_hand_name)
+	#var pre_offset = _overlay.get_offset(_overlay.current_target)
+#	var base_transform = Transform(Basis(pre_offset.rot), pre_offset.pos)
 
 	# calculate offsets from active controller to overlay
+	#var aspect = float(_overlay.OVERLAY_PROPERTIES.height) / _overlay.OVERLAY_PROPERTIES.width
 	var controller_t = tracker_nodes[_mover_hand_name].transform
+	#_interaction._overlay_area.global_transform
+#	_interaction._overlay_area.scale = Vector3(1,1,1)
+#	_interaction._overlay_area.translation.y -= (1-aspect)*aspect
 	var overlay_t = _interaction._overlay_area.global_transform
+	var org = overlay_t.origin
+	
+	#org.y -= (1-aspect)*aspect
 
-	var new_pos = controller_t.xform_inv(overlay_t.origin)
+	var new_pos = controller_t.xform_inv(org)
 	var new_rot = Quat(controller_t.basis).inverse() * Quat(overlay_t.basis)
+#	if _pre_move_target == 'world':
+#		new_pos = controller_t.xform_inv(OverlayInteractionRoot.world_transform.xform_inv(org))
+#		new_rot *= Quat(OverlayInteractionRoot.world_transform.basis).inverse()
 
 	_overlay.set_offset(_mover_hand_name, new_pos, new_rot)
 	_overlay.current_target = _mover_hand_name
@@ -61,10 +73,16 @@ func finish_move():
 	is_moving = false
 	# calculate and apply the new offsets
 	var new_target_t = tracker_nodes[_pre_move_target].transform
-	var ovelay_t = _interaction._overlay_area.global_transform
-
-	var new_pos = new_target_t.xform_inv(ovelay_t.origin)
-	var new_rot = Quat(new_target_t.basis).inverse() * Quat(ovelay_t.basis)
+	var overlay_t = _interaction._overlay_area.global_transform
+	var aspect = float(_overlay.OVERLAY_PROPERTIES.height) / _overlay.OVERLAY_PROPERTIES.width
+	var org = overlay_t.origin
+	#org.y -= (1-aspect)*aspect
+	var new_pos = new_target_t.xform_inv(org)
+	#new_pos.y = (1-aspect)*aspect
+	var new_rot = Quat(new_target_t.basis).inverse() * Quat(overlay_t.basis)
+	#if(_pre_move_target == 'world'):
+		#new_rot *= Quat(OverlayInteractionRoot.world_transform.basis).inverse()
+		#new_pos = OverlayInteractionRoot.world_transform.xform(new_pos)
 
 	_overlay.set_offset(_pre_move_target, new_pos, new_rot)
 
