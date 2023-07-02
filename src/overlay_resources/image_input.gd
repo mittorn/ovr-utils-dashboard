@@ -17,6 +17,14 @@ func _ready():
 func set_key_state(key, pressed):
 	get_parent().screengrab.set_key_state(key, pressed)
 
+func set_mouse(button,pressed):
+	var state
+	if pressed:
+		state = 'mousedown'
+	else:
+		state = 'mouseup'
+	OS.execute('xdotool',[state, button])
+
 func send_scroll(up, count):
 	var b
 	if up:

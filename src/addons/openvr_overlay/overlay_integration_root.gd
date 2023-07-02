@@ -53,11 +53,11 @@ func _on_right_button_pressed(button: int) -> void:
 	print(button)
 	if(hidden >= 1):
 		return
-
-	if(button == 14):
-		OS.execute('xdotool',['mousedown', 2])
-	if(button == 7):
-		OS.execute('xdotool',['mousedown', 3])
+	if OverlayManager.keyboard_target:
+		if(button == 14):
+			OverlayManager.keyboard_target.set_mouse(2, true)
+		if(button == 7):
+			OverlayManager.keyboard_target.set_mouse(3, true)
 	if(button == 1):
 		menu_vis = !menu_vis
 		OverlayManager.set_hide_menu(menu_vis)
@@ -68,11 +68,12 @@ func _on_right_button_release(button: int) -> void:
 		right_grip = false
 	if gi:
 		return
-
+	if !OverlayManager.keyboard_target:
+		return
 	if(button == 14):
-		OS.execute('xdotool',['mouseup', 2])
+		OverlayManager.keyboard_target.set_mouse(2, false)
 	if(button == 7):
-		OS.execute('xdotool',['mouseup', 3])
+		OverlayManager.keyboard_target.set_mouse(3, false)
 
 
 #	if button == JOY_OCULUS_MENU:

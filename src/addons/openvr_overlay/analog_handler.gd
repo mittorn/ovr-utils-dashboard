@@ -19,6 +19,8 @@ func _physics_process(delta):
 	if OverlayInteractionRoot.gi:
 		return
 	time_delta += delta
+	if !OverlayManager.keyboard_target:
+		return
 
 	var value = get_parent().get_joystick_axis(1)
 	if value > 0 && value > prev_value:

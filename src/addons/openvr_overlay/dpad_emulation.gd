@@ -18,6 +18,8 @@ var y_delta = 0
 func _physics_process(delta):
 	if OverlayInteractionRoot.gi:
 		return
+	if !OverlayManager.keyboard_target:
+		return
 	var x = get_parent().get_joystick_axis(0)
 	var y = get_parent().get_joystick_axis(1)
 	if x > 0 && x > prev_x:
@@ -38,6 +40,7 @@ func _physics_process(delta):
 	if y < -0.9:
 		y_delta -= 0.05
 	prev_y = y
+	
 	if x_delta > 0.2:
 		#OS.execute('xdotool',['key', 'Right'])
 		OverlayManager.keyboard_target.set_key_state('RIGHT',true)
