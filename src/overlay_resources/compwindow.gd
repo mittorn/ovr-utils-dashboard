@@ -4,7 +4,7 @@ extends Control
 const CompWindow = preload("res://addons/godot-screengrab/compwindow.gdns")
 
 var compwindow = CompWindow.new()
-var classnames = ['Navigator', 'konsole']
+var classnames = ['Navigator', 'konsole', 'AdvancedSettings']
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
@@ -18,7 +18,7 @@ var OVERLAY_PROPERTIES = {
 var instance
 func pre_prop_callback(_instance):
 	instance = _instance
-	if instance.compwindow_class < 0 || instance.compwindow_class > 1:
+	if instance.compwindow_class < 0 || instance.compwindow_class > 2:
 		instance.compwindow_class = 0;
 	$Buttons/Index.text = str(instance.compwindow_index)
 	$Buttons/Classname.text = classnames[instance.compwindow_class]
@@ -56,7 +56,7 @@ func _draw() -> void:
 	
 
 func update_window():
-	if instance.compwindow_class < 0 || instance.compwindow_class > 1:
+	if instance.compwindow_class < 0 || instance.compwindow_class > 2:
 		instance.compwindow_class = 0;
 	$Buttons/Index.text = str(instance.compwindow_index)
 	$Buttons/Classname.text = classnames[instance.compwindow_class]
