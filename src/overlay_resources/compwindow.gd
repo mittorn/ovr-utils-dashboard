@@ -24,6 +24,7 @@ func pre_prop_callback(_instance):
 	$Buttons/Classname.text = classnames[instance.compwindow_class]
 	var window = compwindow.register_window(classnames[instance.compwindow_class],instance.compwindow_index)
 	print(window)
+	$Buttons/Title.text = compwindow.get_window_title()
 	if window:
 		OVERLAY_PROPERTIES.width = max(compwindow.get_width(), 320)
 		OVERLAY_PROPERTIES.height = max(compwindow.get_height()+40, 40)
@@ -35,15 +36,15 @@ var tex
 var id
 
 func update_texture():
-	if !compwindow.get_id():
-		return
+
 	if not tex:
 		tex = ExternalTexture.new()
 		id = tex.get_external_texture_id()
 		#screengrab.update_texture(id)
 
 	compwindow.update_texture(id)
-
+	if !compwindow.get_id():
+		return
 	var s: TextureRect = $Image
 	s.margin_right = compwindow.get_width();
 	s.margin_bottom = compwindow.get_height()+40;
@@ -62,13 +63,14 @@ func update_window():
 	$Buttons/Classname.text = classnames[instance.compwindow_class]
 	var window = compwindow.register_window(classnames[instance.compwindow_class],instance.compwindow_index)
 	print(window)
+	$Buttons/Title.text = compwindow.get_window_title()
 	if window:
 		OVERLAY_PROPERTIES.width  = max(compwindow.get_width(), 320)
 		OVERLAY_PROPERTIES.height = max(compwindow.get_height()+40, 40)
 		instance.OVERLAY_PROPERTIES.width = OVERLAY_PROPERTIES.width
 		instance.OVERLAY_PROPERTIES.height = OVERLAY_PROPERTIES.height
 		instance.try_update_size()
-		update_texture()
+	update_texture()
 	pass
 
 func _on_ButtonPrev_pressed():
