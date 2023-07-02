@@ -1,0 +1,102 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://overlay_resources/compwindow.gd" type="Script" id=1]
+[ext_resource path="res://overlay_resources/compwindow_input.gd" type="Script" id=2]
+[ext_resource path="res://styles/menu.theme" type="Theme" id=3]
+[ext_resource path="res://overlay_resources/keyboard/keyboard.theme" type="Theme" id=4]
+
+[node name="Overlay" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 3 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonPrev" type="Button" parent="Buttons"]
+margin_right = 33.0
+margin_bottom = 40.0
+text = " < "
+
+[node name="Index" type="Label" parent="Buttons"]
+margin_left = 37.0
+margin_top = 8.0
+margin_right = 46.0
+margin_bottom = 31.0
+text = "1"
+
+[node name="ButtonNext" type="Button" parent="Buttons"]
+margin_left = 50.0
+margin_right = 83.0
+margin_bottom = 40.0
+text = " > "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Update" type="Button" parent="Buttons"]
+margin_left = 87.0
+margin_right = 161.0
+margin_bottom = 40.0
+text = "Update"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Activate" type="Button" parent="Buttons"]
+margin_left = 165.0
+margin_right = 247.0
+margin_bottom = 40.0
+text = "Activate"
+
+[node name="PrevClass" type="Button" parent="Buttons"]
+margin_left = 251.0
+margin_right = 284.0
+margin_bottom = 40.0
+text = " < "
+
+[node name="Classname" type="Label" parent="Buttons"]
+margin_left = 288.0
+margin_top = 8.0
+margin_right = 329.0
+margin_bottom = 31.0
+text = "Class"
+
+[node name="NextClass" type="Button" parent="Buttons"]
+margin_left = 333.0
+margin_right = 362.0
+margin_bottom = 40.0
+text = "> "
+
+[node name="Title" type="Label" parent="Buttons"]
+margin_left = 366.0
+margin_top = 8.0
+margin_right = 401.0
+margin_bottom = 31.0
+text = "Title"
+
+[node name="Image" type="TextureRect" parent="."]
+margin_top = 40.0
+margin_right = 1920.0
+margin_bottom = 1120.0
+stretch_mode = 1
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Buttons/ButtonPrev" to="." method="_on_ButtonPrev_pressed"]
+[connection signal="pressed" from="Buttons/ButtonNext" to="." method="_on_ButtonNext_pressed"]
+[connection signal="pressed" from="Buttons/PrevClass" to="." method="_on_PrevClass_pressed"]
+[connection signal="pressed" from="Buttons/NextClass" to="." method="_on_NextClass_pressed"]

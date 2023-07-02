@@ -5,6 +5,7 @@ const OVERLAY_PROPERTIES = {
 	"has_cursor" : true,
 		"width": 1900*0.5,
 	"height": 700*0.5,
+	"skip_keyboard": true
 }
 
 export var key_size := 50
@@ -79,17 +80,21 @@ func apply_keys():
 
 func key_toggled(state, code):
 	if state:
-		GDVK.key_down(code)
+		#GDVK.key_down(code)
+		OverlayManager.keyboard_target.set_key_state(code, true)
 	else:
-		GDVK.key_up(code)
+		#GDVK.key_up(code)
+		OverlayManager.keyboard_target.set_key_state(code, false)
 
 
 func key_down(code):
-	GDVK.key_down(code)
+	#GDVK.key_down(code)
+	OverlayManager.keyboard_target.set_key_state(code, true)
 
 
 func key_up(code):
-	GDVK.key_up(code)
+	#GDVK.key_up(code)
+	OverlayManager.keyboard_target.set_key_state(code, false)
 	# clear all modifier keys
 	for k in toggle_keys:
 		if k.pressed:

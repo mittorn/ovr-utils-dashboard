@@ -43,6 +43,16 @@ const DEF = {
 					"type": "float",
 					"default": 1.0
 				},
+				"compwindow_class": {
+					"name": "Compwindow_Class",
+					"type": "int",
+					"default": 0
+				},
+				"compwindow_index": {
+					"name": "Compwindow_Index",
+					"type": "int",
+					"default": 0
+				},
 				"target": {
 					"name": "Tracking target",
 					"type": "string",

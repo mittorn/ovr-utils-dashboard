@@ -33,6 +33,8 @@ func save_all() -> void:
 	_save_prop("alpha",    p.alpha)
 	_save_prop("target",   p.target)
 	_save_prop("fallback", p.fallback)
+	_save_prop("compwindow_class", p.compwindow_class)
+	_save_prop("compwindow_index", p.compwindow_index)
 	_save_prop("offsets",  p._offsets.duplicate(true))
 	_needs_sync = false
 
@@ -57,7 +59,10 @@ func load_all() -> void:
 			p.target = new.target
 		if new.has("fallback"):
 			p.fallback = new.fallback
-
+		if new.has("compwindow_index"):
+			p.compwindow_index = new.compwindow_index
+		if new.has("compwindow_class"):
+			p.compwindow_class = new.compwindow_class
 		if new.has("offsets"):# thorough in case some values are missing in file
 			for t_key in new.offsets:
 				var offset = new.offsets[t_key]

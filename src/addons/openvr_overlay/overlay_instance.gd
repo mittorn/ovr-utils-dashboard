@@ -8,14 +8,15 @@ signal alpha_changed
 signal target_changed
 signal fallback_changed
 signal offset_changed
+signal compwindow_changed
 
 const TARGETS = ["head", "left", "right", "world"]
 export (String,  "head", "left", "right", "world") var target = "left" setget set_target
 
 export var width_meters := 0.4 setget set_width_in_meters
 export var alpha        := 1.0 setget set_alpha
-
-
+export var compwindow_index = 0
+export var compwindow_class = 0
 var _tracker_id := 0
 var _offsets:Dictionary = {
 	"head":  {"pos": Vector3(0, 0, -0.35), "rot": Quat()},
@@ -72,6 +73,21 @@ func _ready() -> void:
 	call_deferred("update_offset")
 	add_to_group("overlays")
 
+func try_update_size():
+
+	$OverlayViewport.size = Vector2(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height);
+	#$VROverlayViewport.set_size_override(true, Vector2(64, 64))
+	#$VROverlayViewport.set_override_size(64, 64)
+	#$VROverlayViewport.arvr = false
+	$VROverlayViewport.size = Vector2(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height);
+	update_tracker_id()
+	$VROverlayViewport/TextureRect.rect_size = Vector2(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height) #OverlayInit.ovr_interface.get_render_targetsize() / 2
+	# OverlayInit.ovr_interface.get_render_targetsize()
+	#Vector2(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height);
+	emit_signal("width_changed")
+	
+
+
 func load_overlay() -> void:
 	path_invalid = false
 
@@ -81,6 +97,9 @@ func load_overlay() -> void:
 		overlay_scene = load("res://special_overlays/UnknownType.tscn").instance()
 	else:
 		overlay_scene = packed_overlay.instance()
+
+	if overlay_scene.has_method("pre_prop_callback"):
+		overlay_scene.pre_prop_callback(self)
 
 	if overlay_scene.get("OVERLAY_PROPERTIES") != null:
 		OVERLAY_PROPERTIES = overlay_scene.OVERLAY_PROPERTIES

@@ -7,6 +7,7 @@ signal toggle_kb
 
 var loaded := false
 var dashboard := false
+var keyboard_target
 
 func _init() -> void:
 	Settings.connect("settings_loaded", self, "_load_overlays")
@@ -32,6 +33,10 @@ func add_overlay(name):
 	var instance = preload("res://addons/openvr_overlay/OverlayInstance.tscn").instance()
 	instance.name = name
 	instance.path = Settings.s.overlays[name].path
+	if Settings.s.overlays[name].get('compwindow_class'):
+		instance.compwindow_class = Settings.s.overlays[name].compwindow_class
+	if Settings.s.overlays[name].get('compwindow_index'):
+		instance.compwindow_class = Settings.s.overlays[name].compwindow_index
 	instance.add_child(preload("res://OverlaySettingsSync.tscn").instance())
 	add_child(instance)
 	emit_signal("added_overlay", name)

@@ -6,6 +6,7 @@ onready var viewport: Viewport = get_node("../../OverlayViewport")
 onready var _i = get_parent()
 
 var t = 0
+var skip_keyboard = false
 
 var cursor_pos := {
 	"right": Vector2(),
@@ -31,6 +32,7 @@ var tstate = true
 func _ready() -> void:
 	viewport.add_child(cursor_nodes.right)
 	viewport.add_child(cursor_nodes.left)
+	skip_keyboard = _i.get_parent().OVERLAY_PROPERTIES.get("skip_keyboard") != null
 	if is_touch:
 		get_parent().connect("touch_on", self, "_trigger_on")
 		get_parent().connect("touch_off", self, "_trigger_off")
@@ -123,7 +125,19 @@ func _send_move_event():
 	#if event.position.x == 2048 or event.position.y == 2048:
 	#	return
 	viewport.input(event)
+func set_key_state(key, pressed):
+	var key_event : InputEventKey = InputEventKey.new()
+	key_event.scancode = OS.find_scancode_from_string(key)
+	if !key_event.scancode:
+		key_event.scancode = OS.find_scancode_from_string('KEY_'+key);
+	else:
+		if OS.is_scancode_unicode(key_event.scancode):
+			key_event.unicode = key[0].to_ascii()[0]
 
+	key_event.pressed = pressed
+	viewport.input(key_event)
+func send_scroll(up, count):
+	pass
 
 func _send_click_event(state: bool, controller: String):
 	if click[controller] == state:
@@ -136,6 +150,8 @@ func _send_click_event(state: bool, controller: String):
 	click_event.position = cursor_pos[controller]
 	click_event.pressed = state
 	click_event.button_index = 1
+	if state && !skip_keyboard:
+		OverlayManager.keyboard_target = self
 	viewport.input(click_event)
 #	print("SENT EVENT ", click_event.position, " -- ", click_event.pressed)
 

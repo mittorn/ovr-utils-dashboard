@@ -34,10 +34,12 @@ func _physics_process(delta):
 		return
 	time_delta = 0
 	if scroll_delta > 0.5:
-		OS.execute('xdotool',['click', '--repeat', round(scroll_delta/0.5), '--delay', 0, 4])
+		#OS.execute('xdotool',['click', '--repeat', round(scroll_delta/0.5), '--delay', 0, 4])
+		OverlayManager.keyboard_target.send_scroll(true, round(scroll_delta/0.5));
 		scroll_delta = 0
 	if scroll_delta < -0.5:
-		OS.execute('xdotool',['click', '--repeat', round(-scroll_delta/0.5), '--delay', 0, 5])
+		OverlayManager.keyboard_target.send_scroll(false, round(-scroll_delta/0.5));
+		#OS.execute('xdotool',['click', '--repeat', round(-scroll_delta/0.5), '--delay', 0, 5])
 		scroll_delta = 0
 	#print(scroll_delta)
 

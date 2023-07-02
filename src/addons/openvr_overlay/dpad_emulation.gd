@@ -39,19 +39,26 @@ func _physics_process(delta):
 		y_delta -= 0.05
 	prev_y = y
 	if x_delta > 0.2:
-		OS.execute('xdotool',['key', 'Right'])
+		#OS.execute('xdotool',['key', 'Right'])
+		OverlayManager.keyboard_target.set_key_state('RIGHT',true)
+		OverlayManager.keyboard_target.set_key_state('RIGHT',false)
 		x_delta = 0
 		y_delta = 0
 	if x_delta < -0.2:
-		OS.execute('xdotool',['key', 'Left'])
+		OverlayManager.keyboard_target.set_key_state('LEFT',true)
+		OverlayManager.keyboard_target.set_key_state('LEFT',false)
+		#OS.execute('xdotool',['key', 'Left'])
 		x_delta = 0
 		y_delta = 0
 	if y_delta > 0.5:
-		OS.execute('xdotool',['key', 'Up'])
+		OverlayManager.keyboard_target.set_key_state('UP',true)
+		OverlayManager.keyboard_target.set_key_state('UP',false)
 		y_delta = 0
 		x_delta = 0
 	if y_delta < -0.5:
-		OS.execute('xdotool',['key', 'Down'])
+		#OS.execute('xdotool',['key', 'Down'])
+		OverlayManager.keyboard_target.set_key_state('DOWN',true)
+		OverlayManager.keyboard_target.set_key_state('DOWN',false)
 		y_delta = 0
 		x_delta = 0
 	if x == 0:
