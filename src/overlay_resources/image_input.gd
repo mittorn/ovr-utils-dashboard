@@ -14,24 +14,6 @@ var last_pressed = 0
 func _ready():
 	pass # Replace with function body.
 
-func set_key_state(key, pressed):
-	get_parent().screengrab.set_key_state(key, pressed)
-
-func set_mouse(button,pressed):
-	var state
-	if pressed:
-		state = 'mousedown'
-	else:
-		state = 'mouseup'
-	OS.execute('xdotool',[state, button])
-
-func send_scroll(up, count):
-	var b
-	if up:
-		b = 4
-	else:
-		b = 5
-	OS.execute('xdotool',['click', '--repeat', count, '--delay', 0, b])
 
 func _input(event):
 	if event is InputEventMouseMotion && (!last_pressed||abs(event.position.x - press_x)+abs(event.position.y - press_y) > 55):
@@ -41,7 +23,7 @@ func _input(event):
 			last_x = event.position.x
 			last_y = event.position.y
 	if event is InputEventMouseButton:
-		OverlayManager.keyboard_target = self
+		OverlayManager.keyboard_target = ScreenGrab
 		#print(event.position.x)
 		if abs(event.position.x - press_x)+abs(event.position.y - press_y) > 100:
 			OS.execute('xdotool',['mousemove', '%d' % (event.position.x), '%d' % (event.position.y)])

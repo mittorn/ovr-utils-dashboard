@@ -24,9 +24,6 @@ const keymods = {
 	'SUPER': 0x40
 }
 # send caps with xtest
-const ScreenGrab = preload("res://addons/godot-screengrab/screengrab.gdns")
-
-var screengrab = ScreenGrab.new()
 var repeat_key = ''
 func set_key_state(key, pressed):
 	if key in keymods:
@@ -35,7 +32,7 @@ func set_key_state(key, pressed):
 		else:
 			keystate &= ~keymods[key] & 0xFF
 		if(key == 'CAPSLOCK'):
-			screengrab.set_key_state(key, pressed)
+			ScreenGrab.screengrab.set_key_state(key, pressed)
 	else:
 		if !pressed:
 			repeat_key = ''

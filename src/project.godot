@@ -21,6 +21,7 @@ config/icon="res://textures/icon.png"
 Settings="*res://addons/settings-manager/Settings.tscn"
 OverlayInit="*res://addons/openvr_overlay/overlay_init.gd"
 OverlayInteractionRoot="*res://addons/openvr_overlay/OverlayInteractionRoot.tscn"
+ScreenGrab="*res://ScreenGrab.tscn"
 OverlayManager="*res://OverlayManager.tscn"
 GDVK="*res://addons/gdvk/GDVK.tscn"
 
