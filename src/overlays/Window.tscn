@@ -47,42 +47,42 @@ __meta__ = {
 
 [node name="Update" type="Button" parent="Buttons"]
 margin_left = 87.0
-margin_right = 161.0
+margin_right = 135.0
 margin_bottom = 40.0
-text = "Update"
+text = "Upd"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Activate" type="Button" parent="Buttons"]
-margin_left = 165.0
-margin_right = 247.0
+margin_left = 139.0
+margin_right = 185.0
 margin_bottom = 40.0
-text = "Activate"
+text = "ACT"
 
 [node name="PrevClass" type="Button" parent="Buttons"]
-margin_left = 251.0
-margin_right = 284.0
+margin_left = 189.0
+margin_right = 222.0
 margin_bottom = 40.0
 text = " < "
 
 [node name="Classname" type="Label" parent="Buttons"]
-margin_left = 288.0
+margin_left = 226.0
 margin_top = 8.0
-margin_right = 329.0
+margin_right = 267.0
 margin_bottom = 31.0
 text = "Class"
 
 [node name="NextClass" type="Button" parent="Buttons"]
-margin_left = 333.0
-margin_right = 362.0
+margin_left = 271.0
+margin_right = 300.0
 margin_bottom = 40.0
 text = "> "
 
 [node name="Title" type="Label" parent="Buttons"]
-margin_left = 366.0
+margin_left = 304.0
 margin_top = 8.0
-margin_right = 401.0
+margin_right = 339.0
 margin_bottom = 31.0
 text = "Title"
 
@@ -98,5 +98,7 @@ __meta__ = {
 
 [connection signal="pressed" from="Buttons/ButtonPrev" to="." method="_on_ButtonPrev_pressed"]
 [connection signal="pressed" from="Buttons/ButtonNext" to="." method="_on_ButtonNext_pressed"]
+[connection signal="pressed" from="Buttons/Update" to="." method="update_window"]
+[connection signal="pressed" from="Buttons/Activate" to="." method="_on_Activate_pressed"]
 [connection signal="pressed" from="Buttons/PrevClass" to="." method="_on_PrevClass_pressed"]
 [connection signal="pressed" from="Buttons/NextClass" to="." method="_on_NextClass_pressed"]

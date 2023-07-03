@@ -36,6 +36,7 @@ func send_scroll(up, count):
 func _input(event):
 	if event is InputEventMouseMotion && (!last_pressed||abs(event.position.x - press_x)+abs(event.position.y - press_y) > 55):
 		if abs(last_x - event.position.x) + abs(last_y - event.position.y) > 4 || last_pressed:
+			OverlayManager.desktop_active = true
 			OS.execute('xdotool',['mousemove', '%d' % (event.position.x), '%d' % (event.position.y)])
 			last_x = event.position.x
 			last_y = event.position.y
