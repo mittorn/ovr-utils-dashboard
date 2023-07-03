@@ -26,6 +26,8 @@ const keymods = {
 # send caps with xtest
 var repeat_key = ''
 func set_key_state(key, pressed):
+	if get_parent().desktop_layer:
+		return ScreenGrab.set_key_state(key, pressed)
 	if key in keymods:
 		if pressed:
 			keystate |= keymods[key]
@@ -51,12 +53,16 @@ func _process(delta):
 		get_parent().compwindow.set_key_state(repeat_key, 1, keystate)
 
 func set_mouse(button, clicked):
+	if get_parent().desktop_layer:
+		return ScreenGrab.set_mouse(button, clicked)
 	var b = 0x100 << (button - 1)
 	if !clicked:
 		b = 0
 	get_parent().compwindow.window_update_mouse(b | keystate, get_parent().raise_flags, last_x, last_y - 40)
 	repeat_key = ''
 func send_scroll(up, count):
+	if get_parent().desktop_layer:
+		return ScreenGrab.send_scroll(up, count)
 	var i = 0
 	var b
 	if up:
@@ -69,17 +75,26 @@ func send_scroll(up, count):
 		i = i+1
 
 
-func _input(event):
+
+func _on_Image_gui_input(event):
 	if !get_parent().compwindow.get_id():
+		return
+	if get_parent().desktop_layer:
+		#event.position.x += get_parent().compwindow.get_x()
+		#event.position.y += get_parent().compwindow.get_y()
+		if event.position.y > 0:
+			#var tgt = OverlayManager.keyboard_target 
+			ScreenGrab.input_func(event)
+			OverlayManager.keyboard_target = self
 		return
 	if event is InputEventMouseMotion && (!last_pressed||abs(event.position.x - press_x)+abs(event.position.y - press_y) > 55):
 		if abs(last_x - event.position.x) + abs(last_y - event.position.y) > 4 || last_pressed:
 			if OverlayManager.desktop_active:
-				get_parent().compwindow.window_activate(get_parent().raise_flags, event.position.x, event.position.y - 40)
+				get_parent().compwindow.window_activate(get_parent().raise_flags, event.position.x, event.position.y )
 				OverlayManager.desktop_active = false
 			#OS.execute('xdotool',['mousemove', '%d' % (event.position.x), '%d' % (event.position.y)])
-			if event.position.y > 40:
-				get_parent().compwindow.window_update_mouse(0xFF00 | keystate, get_parent().raise_flags, event.position.x, event.position.y - 40)
+			if event.position.y > 0:
+				get_parent().compwindow.window_update_mouse(0xFF00 | keystate, get_parent().raise_flags, event.position.x, event.position.y)
 			last_x = event.position.x
 			last_y = event.position.y
 	if event is InputEventMouseButton:
@@ -95,8 +110,8 @@ func _input(event):
 			state = 0x100
 		else:
 			state = 0
-		if event.position.y > 40:
-			get_parent().compwindow.window_update_mouse( state | keystate, get_parent().raise_flags, event.position.x, event.position.y - 40)
+		if event.position.y > 0:
+			get_parent().compwindow.window_update_mouse( state | keystate, get_parent().raise_flags, event.position.x, event.position.y )
 		if !last_pressed && event.pressed:
 			press_x = event.position.x
 			press_y = event.position.y

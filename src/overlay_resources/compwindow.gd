@@ -29,8 +29,9 @@ var t = 0
 var tex
 var id
 var raise_flags = 3
+var desktop_layer = false
 func update_texture():
-
+	desktop_layer = false
 	if not tex:
 		tex = ExternalTexture.new()
 		id = tex.get_external_texture_id()
@@ -40,10 +41,14 @@ func update_texture():
 	if !compwindow.get_id():
 		return
 	var s: TextureRect = $Image
-	s.margin_right = compwindow.get_width();
-	s.margin_bottom = compwindow.get_height()+40;
+	#s.margin_top = 40
+	#s.margin_left = 0
+	#s.margin_right = compwindow.get_width();
+	#s.margin_bottom = compwindow.get_height()+40;
+	s.rect_size = Vector2(compwindow.get_width(), compwindow.get_height())
+	s.rect_position = Vector2(0,40)
 	tex.flags = 0
-	$Image.texture = tex
+	s.texture = tex
 
 func _draw() -> void:
 	if compwindow.get_id() && !tex:
@@ -93,3 +98,19 @@ func _on_NextClass_pressed():
 
 func _on_Activate_pressed():
 	compwindow.window_activate(raise_flags, 100,100)
+
+
+func _on_DesktopToggle_toggled(button_pressed):
+	desktop_layer = button_pressed
+	if desktop_layer:
+		compwindow.window_activate(0xF, 100,100)
+		var s: TextureRect = $Image
+		s.texture = ScreenGrab.create_texture()
+		s.rect_size = Vector2(ScreenGrab.screengrab.get_width(),ScreenGrab.screengrab.get_height())
+		s.rect_position = Vector2(-compwindow.get_x(), -compwindow.get_y()+40)
+	else:
+		update_texture()
+
+
+func _on_Image_gui_input(event):
+	pass # Replace with function body.
