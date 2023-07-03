@@ -18,3 +18,7 @@ func _draw() -> void:
 	s.margin_bottom = ScreenGrab.screengrab.get_height();
 	tex.flags = 0
 	$Image.texture = tex
+
+
+func _on_Image_gui_input(event):
+	return ScreenGrab.input_func(event)
