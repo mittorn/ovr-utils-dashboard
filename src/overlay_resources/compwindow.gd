@@ -47,18 +47,14 @@ func update_texture():
 func _draw() -> void:
 	if compwindow.get_id() && !tex:
 		update_texture()
-	
+
+func find_window():
+	return 0
+
+
 func update_window(first = false):
-	if instance.compwindow_class < 0:
-		instance.compwindow_class = 0;
-	if instance.compwindow_class >= len(classnames):
-		instance.compwindow_class = len(classnames) - 1
+	var window = find_window()
 	$Buttons/Index.text = str(instance.compwindow_index)
-	$Buttons/Classname.text = classnames[instance.compwindow_class][0]
-	var window = compwindow.register_window(classnames[instance.compwindow_class][1],classnames[instance.compwindow_class][2],instance.compwindow_index)
-	raise_flags = classnames[instance.compwindow_class][3]
-	print(window)
-	$Buttons/Title.text = compwindow.get_window_title()
 	if window:
 		OVERLAY_PROPERTIES.width  = max(compwindow.get_width(), 320)
 		OVERLAY_PROPERTIES.height = max(compwindow.get_height()+40, 40)
@@ -79,31 +75,8 @@ func _on_ButtonNext_pressed():
 	instance.compwindow_index += 1
 	update_window()
 
-
-func _on_PrevClass_pressed():
-	instance.compwindow_class -= 1
-	update_window()
-
-
-func _on_NextClass_pressed():
-	instance.compwindow_class += 1
-	update_window()
-
-
 func _on_Activate_pressed():
 	compwindow.window_activate(raise_flags, 100,100)
-
-
-func _on_DesktopToggle_toggled(button_pressed):
-	desktop_layer = button_pressed
-	if desktop_layer:
-		compwindow.window_activate(0xF, 100,100)
-		var s: TextureRect = $Image
-		s.texture = ScreenGrab.create_texture()
-		s.rect_size = Vector2(ScreenGrab.screengrab.get_width(),ScreenGrab.screengrab.get_height())
-		s.rect_position = Vector2(-compwindow.get_x(), -compwindow.get_y()+40)
-	else:
-		update_texture()
 
 
 # Declare member variables here. Examples:
@@ -154,6 +127,9 @@ func _process(delta):
 		repeat_next = repeat_time + 0.05
 		compwindow.set_key_state(repeat_key, 1, keystate)
 
+func update_watchers():
+	pass
+
 func set_mouse(button, clicked):
 	if desktop_layer:
 		return ScreenGrab.set_mouse(button, clicked)
@@ -162,6 +138,8 @@ func set_mouse(button, clicked):
 		b = 0
 	compwindow.window_update_mouse(b | keystate, raise_flags, last_x, last_y)
 	repeat_key = ''
+	if button == 3 and !clicked:
+		update_watchers()
 
 func send_scroll(up, count):
 	if desktop_layer:
@@ -212,6 +190,8 @@ func _on_Image_gui_input(event):
 			state = 0
 		if event.position.y > 0:
 			compwindow.window_update_mouse( state | keystate, raise_flags, event.position.x, event.position.y )
+			if !state:
+				update_watchers()
 		if !last_pressed && event.pressed:
 			press_x = event.position.x
 			press_y = event.position.y

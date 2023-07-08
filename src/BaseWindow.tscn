@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://overlay_resources/compwindow.gd" type="Script" id=1]
+[ext_resource path="res://styles/menu.theme" type="Theme" id=3]
+[ext_resource path="res://overlay_resources/keyboard/keyboard.theme" type="Theme" id=4]
+
+[node name="Overlay" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 3 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Image" type="TextureRect" parent="."]
+margin_top = 40.0
+margin_right = 1920.0
+margin_bottom = 1120.0
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonPrev" type="Button" parent="Buttons"]
+margin_right = 33.0
+margin_bottom = 40.0
+text = " < "
+
+[node name="Index" type="Label" parent="Buttons"]
+margin_left = 37.0
+margin_top = 8.0
+margin_right = 46.0
+margin_bottom = 31.0
+text = "1"
+
+[node name="ButtonNext" type="Button" parent="Buttons"]
+margin_left = 50.0
+margin_right = 83.0
+margin_bottom = 40.0
+text = " > "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Update" type="Button" parent="Buttons"]
+margin_left = 87.0
+margin_right = 135.0
+margin_bottom = 40.0
+text = "Upd"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Activate" type="Button" parent="Buttons"]
+margin_left = 139.0
+margin_right = 185.0
+margin_bottom = 40.0
+text = "ACT"
+
+[connection signal="gui_input" from="Image" to="." method="_on_Image_gui_input"]
+[connection signal="pressed" from="Buttons/ButtonPrev" to="." method="_on_ButtonPrev_pressed"]
+[connection signal="pressed" from="Buttons/ButtonNext" to="." method="_on_ButtonNext_pressed"]
+[connection signal="pressed" from="Buttons/Update" to="." method="update_window"]
+[connection signal="pressed" from="Buttons/Activate" to="." method="_on_Activate_pressed"]
