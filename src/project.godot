@@ -23,7 +23,6 @@ OverlayInit="*res://addons/openvr_overlay/overlay_init.gd"
 OverlayInteractionRoot="*res://addons/openvr_overlay/OverlayInteractionRoot.tscn"
 ScreenGrab="*res://ScreenGrab.tscn"
 OverlayManager="*res://OverlayManager.tscn"
-GDVK="*res://addons/gdvk/GDVK.tscn"
 
 [debug]
 
@@ -40,7 +39,7 @@ window/energy_saving/keep_screen_on=false
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/gdvk/plugin.cfg", "res://addons/godot-openvr/plugin.cfg", "res://addons/openvr_overlay/plugin.cfg", "res://addons/ovr_utils/plugin.cfg", "res://addons/settings-manager/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/godot-openvr/plugin.cfg", "res://addons/openvr_overlay/plugin.cfg", "res://addons/ovr_utils/plugin.cfg", "res://addons/settings-manager/plugin.cfg" )
 
 [gdnative]
 
