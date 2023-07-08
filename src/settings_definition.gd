@@ -92,7 +92,7 @@ const DEF = {
 				"visible": true,
 				"width": 0.4,
 				"alpha": 1.0,
-				"target": "left",
+				"target": "right",
 				"fallback": ["left", "right", "head"],
 				"offsets": {
 					"left": {

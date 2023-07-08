@@ -11,7 +11,7 @@ signal offset_changed
 signal compwindow_changed
 
 const TARGETS = ["head", "left", "right", "world"]
-export (String,  "head", "left", "right", "world") var target = "left" setget set_target
+export (String,  "head", "left", "right", "world") var target = "head" setget set_target
 
 export var width_meters := 0.4 setget set_width_in_meters
 export var alpha        := 1.0 setget set_alpha
@@ -19,10 +19,10 @@ export var compwindow_index = 0
 export var compwindow_class = 0
 var _tracker_id := 0
 var _offsets:Dictionary = {
-	"head":  {"pos": Vector3(0, 0, -0.35), "rot": Quat()},
+	"head":  {"pos": Vector3(0, 0, -0.55), "rot": Quat()},
 	"left":  {"pos": Vector3(), "rot": Quat()},
 	"right": {"pos": Vector3(), "rot": Quat()},
-	"world": {"pos": Vector3(0,1,0), "rot": Quat()},
+	"world": {"pos": Vector3(0,0.1,0), "rot": Quat()},
 }
 
 # what's actually tracking
