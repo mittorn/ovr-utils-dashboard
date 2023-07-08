@@ -69,7 +69,13 @@ func set_hide_all(hide: bool):
 	for o in Settings.s.overlays:
 		get_node(o).silently_hide(hide)
 	OverlayInit.ovr_config.set_global_overlay_input(!hide) # && !dashboard)
-var exec_dir = OS.get_executable_path().get_base_dir()
+static func get_exec_dir():
+	if OS.has_feature("editor"):
+		return ProjectSettings.globalize_path('res://')
+	else:
+		return OS.get_executable_path().get_base_dir()
+
+var exec_dir = get_exec_dir()
 
 # workaround mesa resetting gpu power mode on every vr app launch, including dashboard
 func restore_gpu_freq():

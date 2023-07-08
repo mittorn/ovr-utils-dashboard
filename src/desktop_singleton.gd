@@ -9,9 +9,15 @@ const Native = preload("res://addons/godot-screengrab/screengrab.gdns")
 var screengrab = Native.new()
 var tex
 var id
+var window_atoms
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var file = File.new()
+	file.open(OverlayManager.exec_dir+'/windows.json', File.READ)
+	window_atoms = parse_json(file.get_as_text())
+	file.close()
+	
+
 func create_texture():
 	if not tex:
 		tex = ExternalTexture.new()

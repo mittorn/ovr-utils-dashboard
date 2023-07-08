@@ -4,15 +4,9 @@ extends Control
 const CompWindow = preload("res://addons/godot-screengrab/compwindow.gdns")
 
 var compwindow = CompWindow.new()
-const classnames = [
-	['term', 'WM_CLASS', 'konsole', 3],
-	['brsw', 'WM_CLASS', 'Navigator', 1],
-	['ovras', 'WM_CLASS', 'AdvancedSettings', 0],
-	['godot', 'WM_CLASS', 'Godot_Editor', 1]
-]
+var classnames = ScreenGrab.window_atoms
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
 	pass # Replace with function body.
 
 var OVERLAY_PROPERTIES = {

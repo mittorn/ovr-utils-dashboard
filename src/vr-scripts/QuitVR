@@ -1,0 +1,2 @@
+#!/bin/sh
+$HOME/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrmonitor vrmonitor://quit
