@@ -11,6 +11,13 @@ var tex
 var id
 var window_atoms
 var modal_flags = 0
+var popup_target = 0
+var modal_target = 0
+var mouse_wid = 0
+
+signal update_popups
+signal update_modals
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var file = File.new()
@@ -75,7 +82,18 @@ func input_func(event):
 		#print('xdotool', state, 1)
 		OS.execute('xdotool',[state, '1'])
 
-
+var t = 0
+var popups_visible = false
+var trigger_modals = false
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
+func _process(delta):
+	t += delta
+	if t > 0.5:
+		if popups_visible:
+			emit_signal("update_popups")
+			trigger_modals = true
+		elif trigger_modals:
+			trigger_modals = false
+			emit_signal("update_modals")
+		t = 0
 #	pass

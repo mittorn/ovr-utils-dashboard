@@ -4,11 +4,15 @@ extends "res://overlay_resources/compwindow.gd"
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var watch_modals
+var watch_modals = true
 
 
 func update_watchers():
-	print('find modals')
+	ScreenGrab.popup_target = compwindow.get_id()
+	ScreenGrab.emit_signal('update_popups')
+	if watch_modals:
+		ScreenGrab.modal_target = compwindow.get_id()
+		ScreenGrab.emit_signal('update_modals')
 
 func find_window():
 	if instance.compwindow_class < 0:
