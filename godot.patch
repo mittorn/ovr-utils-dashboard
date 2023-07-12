@@ -1,3 +1,329 @@
+diff --git a/SConstruct b/SConstruct
+index cc37f3d5e3..dc0a772bc2 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -162,29 +162,29 @@ opts.Add(
+ )
+ 
+ # Thirdparty libraries
+-opts.Add(BoolVariable("builtin_bullet", "Use the built-in Bullet library", True))
+-opts.Add(BoolVariable("builtin_certs", "Use the built-in SSL certificates bundles", True))
++opts.Add(BoolVariable("builtin_bullet", "Use the built-in Bullet library", False))
++opts.Add(BoolVariable("builtin_certs", "Use the built-in SSL certificates bundles", False))
+ opts.Add(BoolVariable("builtin_embree", "Use the built-in Embree library", True))
+-opts.Add(BoolVariable("builtin_enet", "Use the built-in ENet library", True))
+-opts.Add(BoolVariable("builtin_freetype", "Use the built-in FreeType library", True))
++opts.Add(BoolVariable("builtin_enet", "Use the built-in ENet library", False))
++opts.Add(BoolVariable("builtin_freetype", "Use the built-in FreeType library", False))
+ opts.Add(BoolVariable("builtin_libogg", "Use the built-in libogg library", True))
+-opts.Add(BoolVariable("builtin_libpng", "Use the built-in libpng library", True))
++opts.Add(BoolVariable("builtin_libpng", "Use the built-in libpng library", False))
+ opts.Add(BoolVariable("builtin_libtheora", "Use the built-in libtheora library", True))
+ opts.Add(BoolVariable("builtin_libvorbis", "Use the built-in libvorbis library", True))
+ opts.Add(BoolVariable("builtin_libvpx", "Use the built-in libvpx library", True))
+-opts.Add(BoolVariable("builtin_libwebp", "Use the built-in libwebp library", True))
++opts.Add(BoolVariable("builtin_libwebp", "Use the built-in libwebp library", False))
+ opts.Add(BoolVariable("builtin_wslay", "Use the built-in wslay library", True))
+-opts.Add(BoolVariable("builtin_mbedtls", "Use the built-in mbedTLS library", True))
++opts.Add(BoolVariable("builtin_mbedtls", "Use the built-in mbedTLS library", False))
+ opts.Add(BoolVariable("builtin_miniupnpc", "Use the built-in miniupnpc library", True))
+ opts.Add(BoolVariable("builtin_opus", "Use the built-in Opus library", True))
+-opts.Add(BoolVariable("builtin_pcre2", "Use the built-in PCRE2 library", True))
++opts.Add(BoolVariable("builtin_pcre2", "Use the built-in PCRE2 library", False))
+ opts.Add(BoolVariable("builtin_pcre2_with_jit", "Use JIT compiler for the built-in PCRE2 library", True))
+ opts.Add(BoolVariable("builtin_recast", "Use the built-in Recast library", True))
+ opts.Add(BoolVariable("builtin_rvo2", "Use the built-in RVO2 library", True))
+ opts.Add(BoolVariable("builtin_squish", "Use the built-in squish library", True))
+ opts.Add(BoolVariable("builtin_xatlas", "Use the built-in xatlas library", True))
+-opts.Add(BoolVariable("builtin_zlib", "Use the built-in zlib library", True))
+-opts.Add(BoolVariable("builtin_zstd", "Use the built-in Zstd library", True))
++opts.Add(BoolVariable("builtin_zlib", "Use the built-in zlib library", False))
++opts.Add(BoolVariable("builtin_zstd", "Use the built-in Zstd library", False))
+ 
+ # Compilation environment setup
+ opts.Add("CXX", "C++ compiler")
+diff --git a/core/io/resource_loader.cpp b/core/io/resource_loader.cpp
+index 0350522720..0f5335ef44 100644
+--- a/core/io/resource_loader.cpp
++++ b/core/io/resource_loader.cpp
+@@ -276,6 +276,7 @@ RES ResourceLoader::_load(const String &p_path, const String &p_original_path, c
+ #endif
+ 
+ 	ERR_FAIL_V_MSG(RES(), "No loader found for resource: " + p_path + ".");
++	return 0;
+ }
+ 
+ bool ResourceLoader::_add_to_loading_map(const String &p_path) {
+@@ -508,6 +509,7 @@ Ref<ResourceInteractiveLoader> ResourceLoader::load_interactive(const String &p_
+ 	ERR_FAIL_COND_V_MSG(found, Ref<ResourceInteractiveLoader>(), "Failed loading resource: " + path + ".");
+ 
+ 	ERR_FAIL_V_MSG(Ref<ResourceInteractiveLoader>(), "No loader found for resource: " + path + ".");
++	return {};
+ }
+ 
+ void ResourceLoader::add_resource_format_loader(Ref<ResourceFormatLoader> p_format_loader, bool p_at_front) {
+diff --git a/core/os/os.cpp b/core/os/os.cpp
+index aecd3d2dc9..c0d30d88ed 100644
+--- a/core/os/os.cpp
++++ b/core/os/os.cpp
+@@ -777,6 +777,7 @@ PoolStringArray OS::get_connected_midi_inputs() {
+ 
+ 	PoolStringArray list;
+ 	ERR_FAIL_V_MSG(list, vformat("MIDI input isn't supported on %s.", OS::get_singleton()->get_name()));
++	return {};
+ }
+ 
+ void OS::open_midi_inputs() {
+diff --git a/core/packed_data_container.cpp b/core/packed_data_container.cpp
+index 2c8c2d40e0..9ce0da4055 100644
+--- a/core/packed_data_container.cpp
++++ b/core/packed_data_container.cpp
+@@ -94,6 +94,7 @@ Variant PackedDataContainer::_iter_get_ofs(const Variant &p_iter, uint32_t p_off
+ 	} else {
+ 		ERR_FAIL_V(Variant());
+ 	}
++	return Variant();
+ }
+ 
+ Variant PackedDataContainer::_get_at_ofs(uint32_t p_ofs, const uint8_t *p_buf, bool &err) const {
+diff --git a/core/project_settings.cpp b/core/project_settings.cpp
+index f4a15d73a1..2d6b8ee799 100644
+--- a/core/project_settings.cpp
++++ b/core/project_settings.cpp
+@@ -910,6 +910,7 @@ Error ProjectSettings::save_custom(const String &p_path, const CustomMap &p_cust
+ 	} else {
+ 		ERR_FAIL_V_MSG(ERR_FILE_UNRECOGNIZED, "Unknown config file format: " + p_path + ".");
+ 	}
++	return {};
+ }
+ 
+ Variant _GLOBAL_DEF_ALIAS(const String &p_var, const String &p_old_name, const Variant &p_default, bool p_restart_if_changed) {
+diff --git a/drivers/SCsub b/drivers/SCsub
+index 7753197812..a3636c60af 100644
+--- a/drivers/SCsub
++++ b/drivers/SCsub
+@@ -9,7 +9,7 @@ SConscript("unix/SCsub")
+ SConscript("windows/SCsub")
+ 
+ # Sounds drivers
+-SConscript("alsa/SCsub")
++#SConscript("alsa/SCsub")
+ SConscript("coreaudio/SCsub")
+ SConscript("pulseaudio/SCsub")
+ if env["platform"] == "windows":
+@@ -18,7 +18,7 @@ if env["xaudio2"]:
+     SConscript("xaudio2/SCsub")
+ 
+ # Midi drivers
+-SConscript("alsamidi/SCsub")
++#SConscript("alsamidi/SCsub")
+ SConscript("coremidi/SCsub")
+ SConscript("winmidi/SCsub")
+ 
+diff --git a/drivers/unix/file_access_unix.cpp b/drivers/unix/file_access_unix.cpp
+index 1d290baddf..9969e9a706 100644
+--- a/drivers/unix/file_access_unix.cpp
++++ b/drivers/unix/file_access_unix.cpp
+@@ -322,6 +322,7 @@ uint32_t FileAccessUnix::_get_unix_permissions(const String &p_file) {
+ 	} else {
+ 		ERR_FAIL_V_MSG(0, "Failed to get unix permissions for: " + p_file + ".");
+ 	};
++	return 0;
+ }
+ 
+ Error FileAccessUnix::_set_unix_permissions(const String &p_file, uint32_t p_permissions) {
+diff --git a/main/main.cpp b/main/main.cpp
+index 64f5c1d41e..49b681542f 100644
+--- a/main/main.cpp
++++ b/main/main.cpp
+@@ -224,10 +224,10 @@ void initialize_navigation_server() {
+ }
+ 
+ void finalize_navigation_server() {
+-	memdelete(navigation_server);
+-	navigation_server = nullptr;
+-	memdelete(navigation_2d_server);
+-	navigation_2d_server = nullptr;
++//	memdelete(navigation_server);
++//	navigation_server = nullptr;
++//	memdelete(navigation_2d_server);
++//	navigation_2d_server = nullptr;
+ }
+ 
+ //#define DEBUG_INIT
+@@ -2243,7 +2243,7 @@ bool Main::iteration() {
+ 			break;
+ 		}
+ 
+-		NavigationServer::get_singleton_mut()->process(frame_slice * time_scale);
++//		NavigationServer::get_singleton_mut()->process(frame_slice * time_scale);
+ 		message_queue->flush();
+ 
+ 		PhysicsServer::get_singleton()->step(frame_slice * time_scale);
+diff --git a/modules/SCsub b/modules/SCsub
+index 678a614c95..d0814c1e73 100644
+--- a/modules/SCsub
++++ b/modules/SCsub
+@@ -7,7 +7,7 @@ import os
+ import modules_builders
+ 
+ env_modules = env.Clone()
+-
++print(dict(env_modules))
+ Export("env_modules")
+ 
+ env.Depends("modules_enabled.gen.h", Value(env.module_list))
+diff --git a/platform/osx/export/codesign.cpp b/platform/osx/export/codesign.cpp
+index d479043f77..25a0a22e96 100644
+--- a/platform/osx/export/codesign.cpp
++++ b/platform/osx/export/codesign.cpp
+@@ -1616,6 +1616,7 @@ Error CodeSign::codesign(bool p_use_hardened_runtime, bool p_force, const String
+ 		r_error_msg = TTR("Unknown object type.");
+ 		ERR_FAIL_V_MSG(FAILED, "CodeSign: Unknown object type.");
+ 	}
++ return _codesign_file(p_use_hardened_runtime, p_force, "", p_path, "", p_ent_path, false, r_error_msg);;
+ }
+ 
+ #endif // MODULE_REGEX_ENABLED
+diff --git a/platform/osx/export/plist.cpp b/platform/osx/export/plist.cpp
+index c53f9ceb3b..76b9f030ba 100644
+--- a/platform/osx/export/plist.cpp
++++ b/platform/osx/export/plist.cpp
+@@ -363,6 +363,7 @@ bool PList::load_file(const String &p_filename) {
+ 		ret.parse_utf8((const char *)array.ptr(), array.size());
+ 		return load_string(ret);
+ 	}
++	return false;
+ }
+ 
+ bool PList::load_string(const String &p_string) {
+diff --git a/platform/x11/detect.py b/platform/x11/detect.py
+index 56ef4b8e29..d3e7dd140f 100644
+--- a/platform/x11/detect.py
++++ b/platform/x11/detect.py
+@@ -91,25 +91,25 @@ def configure(env):
+ 
+     if env["target"] == "release":
+         if env["optimize"] == "speed":  # optimize for speed (default)
+-            env.Prepend(CCFLAGS=["-O3"])
++            env.Prepend(CCFLAGS=["-g"])
+         elif env["optimize"] == "size":  # optimize for size
+-            env.Prepend(CCFLAGS=["-Os"])
++            env.Prepend(CCFLAGS=["-g"])
+ 
+         if env["debug_symbols"]:
+-            env.Prepend(CCFLAGS=["-g2"])
++            env.Prepend(CCFLAGS=["-g"])
+ 
+     elif env["target"] == "release_debug":
+         if env["optimize"] == "speed":  # optimize for speed (default)
+-            env.Prepend(CCFLAGS=["-O2"])
++            env.Prepend(CCFLAGS=["-O0"])
+         elif env["optimize"] == "size":  # optimize for size
+-            env.Prepend(CCFLAGS=["-Os"])
++            env.Prepend(CCFLAGS=["-O0"])
+ 
+         if env["debug_symbols"]:
+             env.Prepend(CCFLAGS=["-g2"])
+ 
+     elif env["target"] == "debug":
+         env.Prepend(CCFLAGS=["-ggdb"])
+-        env.Prepend(CCFLAGS=["-g3"])
++        env.Prepend(CCFLAGS=["-g0"])
+         env.Append(LINKFLAGS=["-rdynamic"])
+ 
+     ## Architecture
+@@ -256,23 +256,23 @@ def configure(env):
+ 
+         import subprocess
+ 
+-        bullet_version = subprocess.check_output(["pkg-config", "bullet", "--modversion"]).strip()
+-        if str(bullet_version) < min_bullet_version:
+-            # Abort as system bullet was requested but too old
+-            print(
+-                "Bullet: System version {0} does not match minimal requirements ({1}). Aborting.".format(
+-                    bullet_version, min_bullet_version
+-                )
+-            )
+-            sys.exit(255)
+-        env.ParseConfig("pkg-config bullet --cflags --libs")
++        #bullet_version = subprocess.check_output(["pkg-config", "bullet", "--modversion"]).strip()
++        #if str(bullet_version) < min_bullet_version:
++        #    # Abort as system bullet was requested but too old
++        #    print(
++        #        "Bullet: System version {0} does not match minimal requirements ({1}). Aborting.".format(
++        #            bullet_version, min_bullet_version
++        #        )
++        #    )
++        #    sys.exit(255)
++        #env.ParseConfig("pkg-config bullet --cflags --libs")
+ 
+     if False:  # not env['builtin_assimp']:
+         # FIXME: Add min version check
+         env.ParseConfig("pkg-config assimp --cflags --libs")
+ 
+-    if not env["builtin_enet"]:
+-        env.ParseConfig("pkg-config libenet --cflags --libs")
++#    if not env["builtin_enet"]:
++#        env.ParseConfig("pkg-config libenet --cflags --libs")
+ 
+     if not env["builtin_squish"]:
+         env.ParseConfig("pkg-config libsquish --cflags --libs")
+@@ -309,9 +309,9 @@ def configure(env):
+     if not env["builtin_libwebp"]:
+         env.ParseConfig("pkg-config libwebp --cflags --libs")
+ 
+-    if not env["builtin_mbedtls"]:
+-        # mbedTLS does not provide a pkgconfig config yet. See https://github.com/ARMmbed/mbedtls/issues/228
+-        env.Append(LIBS=["mbedtls", "mbedcrypto", "mbedx509"])
++#    if not env["builtin_mbedtls"]:
++#        # mbedTLS does not provide a pkgconfig config yet. See https://github.com/ARMmbed/mbedtls/issues/228
++#        env.Append(LIBS=["mbedtls", "mbedcrypto", "mbedx509"])
+ 
+     if not env["builtin_wslay"]:
+         env.ParseConfig("pkg-config libwslay --cflags --libs")
+@@ -323,8 +323,8 @@ def configure(env):
+ 
+     # On Linux wchar_t should be 32-bits
+     # 16-bit library shouldn't be required due to compiler optimisations
+-    if not env["builtin_pcre2"]:
+-        env.ParseConfig("pkg-config libpcre2-32 --cflags --libs")
++#    if not env["builtin_pcre2"]:
++#        env.ParseConfig("pkg-config libpcre2-32 --cflags --libs")
+ 
+     # Embree is only used in tools build on x86_64 and aarch64.
+     if env["tools"] and not env["builtin_embree"] and is64:
+@@ -333,11 +333,11 @@ def configure(env):
+ 
+     ## Flags
+ 
+-    if os.system("pkg-config --exists alsa") == 0:  # 0 means found
+-        env["alsa"] = True
+-        env.Append(CPPDEFINES=["ALSA_ENABLED", "ALSAMIDI_ENABLED"])
+-    else:
+-        print("Warning: ALSA libraries not found. Disabling the ALSA audio driver.")
++#    if os.system("pkg-config --exists alsa") == 0:  # 0 means found
++#        env["alsa"] = True
++#        env.Append(CPPDEFINES=["ALSA_ENABLED", "ALSAMIDI_ENABLED"])
++#    else:
++#        print("Warning: ALSA libraries not found. Disabling the ALSA audio driver.")
+ 
+     if env["pulseaudio"]:
+         if os.system("pkg-config --exists libpulse") == 0:  # 0 means found
+diff --git a/servers/navigation_server.cpp b/servers/navigation_server.cpp
+index e30fedc81f..63ce6222fb 100644
+--- a/servers/navigation_server.cpp
++++ b/servers/navigation_server.cpp
+@@ -103,6 +103,7 @@ void NavigationServerManager::set_default_server(NavigationServerCallback p_call
+ }
+ 
+ NavigationServer *NavigationServerManager::new_default_server() {
+-	ERR_FAIL_COND_V(create_callback == nullptr, nullptr);
+-	return create_callback();
++//	ERR_FAIL_COND_V(create_callback == nullptr, nullptr);
++//	return create_callback();
++	return nullptr;
+ }
 diff --git a/servers/visual/visual_server_viewport.cpp b/servers/visual/visual_server_viewport.cpp
 index 02cd448897..2827def580 100644
 --- a/servers/visual/visual_server_viewport.cpp
