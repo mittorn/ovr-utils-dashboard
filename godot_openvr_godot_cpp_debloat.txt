@@ -1,0 +1,127 @@
+diff --git a/SConstruct b/SConstruct
+index 8b1d136..e627a31 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -210,7 +210,7 @@ if env['platform'] == 'linux' or env['platform'] == 'freebsd':
+     if env['target'] == 'debug':
+         env.Append(CCFLAGS=['-Og', '-g'])
+     elif env['target'] == 'release':
+-        env.Append(CCFLAGS=['-O3'])
++        env.Append(CCFLAGS=['-Os'] + "-ffunction-sections -flto -march=znver1 -mtune=znver1 -mfma -mavx2 -mavx -msse4a -msse4 -mssse3 -msse3 -msse2 -msse -mfpmath=both -pipe -fno-plt -fipa-pta -fdevirtualize-at-ltrans".split(' '))
+ 
+     if env['bits'] == '64':
+         env.Append(CCFLAGS=['-m64'])
+diff --git a/binding_generator.py b/binding_generator.py
+index 9542b00..708de24 100644
+--- a/binding_generator.py
++++ b/binding_generator.py
+@@ -42,7 +42,92 @@ def print_file_list(api_filepath, output_dir, headers=False, sources=False):
+ def generate_bindings(api_filepath, use_template_get_node, output_dir="."):
+     global classes
+     with open(api_filepath) as api_file:
+-        classes = json.load(api_file)
++        classes2 = json.load(api_file)
++    classes = []
++    classes_needed = ["Array",
++                  "Basis",
++                  "Color",
++                  "Dictionary",
++                  "Error",
++                  "NodePath",
++                  "Plane",
++                  "PoolByteArray",
++                  "PoolIntArray",
++                  "PoolRealArray",
++                  "PoolStringArray",
++                  "PoolVector2Array",
++                  "PoolVector3Array",
++                  "PoolColorArray",
++                  "PoolIntArray",
++                  "PoolRealArray",
++                  "Quat",
++                  "Rect2",
++                  "AABB",
++                  "RID",
++                  "String",
++                  "Transform",
++                  "Transform2D",
++                  "Variant",
++                  "Vector2",
++                  "Vector3",
++                  "Object",
++                  "Reference",
++                  "ArrayMesh",
++                  "Mesh",
++                  "Resource",
++                  "Shape",
++                  "TriangleMesh",
++                  "Material",
++                  "Node",
++                  "InputEvent",
++                  "InputEventKey",
++                  "InputEventWithModifiers",
++                  "MultiplayerAPI",
++                  "NetworkedMultiplayerPeer",
++                  "PacketPeer",
++                  "SceneTree",
++                  "MainLoop",
++                  "Viewport",
++                  "PackedScene",
++                  "SceneState",
++                  "SceneTreeTimer",
++                  "World",
++                  "World2D",
++                  "Camera",
++                  "Spatial",
++                  "Environment",
++                  "Texture",
++                  "Sky",
++                  "SpatialGizmo",
++                  "Image",
++                  "Control",
++                  "CanvasItem",
++                  "Font",
++                  "MultiMesh",
++                  "StyleBox",
++                  "Shader",
++                  "PhysicsDirectSpaceState",
++                  "Theme",
++                  "ViewportTexture",
++                  "PhysicsShapeQueryParameters",
++                  "Physics2DDirectSpaceState",
++                  "Physics2DShapeQueryParameters",
++                  "_Directory",
++                  "ImageTexture",
++                  "_OS",
++                  "ProjectSettings",
++                  "SpatialMaterial",
++                  "ARVRServer",
++                  "ARVRInterface",
++                  "ARVRPositionalTracker",
++                  "ARVRController",
++                  "Skeleton",
++                  "SkinReference",
++                  "Skin",
++                  "VisualServer"]
++    for cls in classes2:
++        if cls['name'] in classes_needed:
++            classes.append(cls)
+ 
+     icalls = set()
+     include_gen_folder = Path(output_dir) / 'include' / 'gen'
+diff --git a/include/gen/.gitignore b/include/gen/.gitignore
+deleted file mode 100644
+index d6b7ef3..0000000
+--- a/include/gen/.gitignore
++++ /dev/null
+@@ -1,2 +0,0 @@
+-*
+-!.gitignore
+diff --git a/src/gen/.gitignore b/src/gen/.gitignore
+deleted file mode 100644
+index d6b7ef3..0000000
+--- a/src/gen/.gitignore
++++ /dev/null
+@@ -1,2 +0,0 @@
+-*
+-!.gitignore

@@ -1,3 +1,25 @@
+diff --git a/SConstruct b/SConstruct
+index 0f1817b..8b008e3 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -91,9 +91,9 @@ elif env['platform'] in ('x11', 'linux'):
+     if env['target'] in ('debug', 'd'):
+         env.Append(CCFLAGS = ['-fPIC', '-g3','-Og', '-std=c++17'])
+     else:
+-        env.Append(CCFLAGS = ['-fPIC', '-g','-O3', '-std=c++17'])
++        env.Append(CCFLAGS = ['-fPIC', '-g','-Os', '-std=c++17']+"-Os -ffunction-sections -fipa-pta -fdevirtualize-at-ltrans -flto -march=znver1 -mtune=znver1 -mfma -mavx2 -mavx -msse4a -msse4 -mssse3 -msse3 -msse2 -msse -mfpmath=both -pipe -fno-plt".split(' '))
+     env.Append(CXXFLAGS='-std=c++0x')
+-    env.Append(LINKFLAGS = ['-Wl,-R,\'$$ORIGIN\''])
++    env.Append(LINKFLAGS = ['-Wl,-R,\'$$ORIGIN\'']+"-Os -ffunction-sections -flto -fipa-pta -fdevirtualize-at-ltrans -march=znver1 -mtune=znver1 -mfma -mavx2 -mavx -msse4a -msse4 -mssse3 -msse3 -msse2 -msse -mfpmath=both -pipe -fno-plt".split(' '))
+ 
+     openvr_dll_target = env['target_path'] + "libopenvr_api.so"
+     openvr_dll_source = env['openvr_path'] + "bin/linux" + str(env['bits']) + "/libopenvr_api.so"
+diff --git a/godot-cpp b/godot-cpp
+--- a/godot-cpp
++++ b/godot-cpp
+@@ -1 +1 @@
+-Subproject commit 59ecf3b99060b49882bd854101d54f53c05870a9
++Subproject commit 59ecf3b99060b49882bd854101d54f53c05870a9-dirty
 diff --git a/src/ARVRInterface.cpp b/src/ARVRInterface.cpp
 index add3014..c901951 100644
 --- a/src/ARVRInterface.cpp
