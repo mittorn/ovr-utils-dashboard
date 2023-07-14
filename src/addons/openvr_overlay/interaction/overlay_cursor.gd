@@ -125,17 +125,27 @@ func _send_move_event():
 	#if event.position.x == 2048 or event.position.y == 2048:
 	#	return
 	viewport.input(event)
+var shift = false
 func set_key_state(key, pressed):
+	if key == 'SHIFT':
+		shift = pressed;
 	var key_event : InputEventKey = InputEventKey.new()
 	key_event.scancode = OS.find_scancode_from_string(key)
 	if !key_event.scancode:
 		key_event.scancode = OS.find_scancode_from_string('KEY_'+key);
 	else:
-		if OS.is_scancode_unicode(key_event.scancode):
-			key_event.unicode = key[0].to_ascii()[0]
+		if OS.is_scancode_unicode(key_event.scancode) && len(key) == 1:
+			var ch = key[0]
+			if !shift:
+				ch = key[0].to_lower()
+			key_event.unicode = ch.to_ascii()[0]
+		elif key_event.scancode >= 0x20 && key_event.scancode < 128:
+			key_event.unicode = key_event.scancode
+		
 
 	key_event.pressed = pressed
 	viewport.input(key_event)
+
 func send_scroll(up, count):
 	pass
 func set_mouse(button,pressed):
@@ -152,7 +162,7 @@ func _send_click_event(state: bool, controller: String):
 	click_event.pressed = state
 	click_event.button_index = 1
 	if state && !skip_keyboard:
-		OverlayManager.keyboard_target = self
+		ScreenGrab.keyboard_target = self
 	viewport.input(click_event)
 #	print("SENT EVENT ", click_event.position, " -- ", click_event.pressed)
 

@@ -7,7 +7,6 @@ signal toggle_kb
 
 var loaded := false
 var dashboard := false
-var keyboard_target
 var desktop_active = false
 
 func _init() -> void:

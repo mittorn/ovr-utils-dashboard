@@ -14,6 +14,8 @@ var modal_flags = 0
 var popup_target = 0
 var modal_target = 0
 var mouse_wid = 0
+var keyboard_target = self
+var mouse_target = self
 
 signal update_popups
 signal update_modals
@@ -61,11 +63,12 @@ func input_func(event):
 	if event is InputEventMouseMotion && (!last_pressed||abs(event.position.x - press_x)+abs(event.position.y - press_y) > 55):
 		if abs(last_x - event.position.x) + abs(last_y - event.position.y) > 4 || last_pressed:
 			OverlayManager.desktop_active = true
+			mouse_target = self
 			OS.execute('xdotool',['mousemove', '%d' % (event.position.x), '%d' % (event.position.y)])
 			last_x = event.position.x
 			last_y = event.position.y
 	if event is InputEventMouseButton:
-		OverlayManager.keyboard_target = ScreenGrab
+		keyboard_target = self
 		#print(event.position.x)
 		if abs(event.position.x - press_x)+abs(event.position.y - press_y) > 100:
 			OS.execute('xdotool',['mousemove', '%d' % (event.position.x), '%d' % (event.position.y)])
@@ -84,12 +87,13 @@ func input_func(event):
 
 var t = 0
 var popups_visible = false
+var popups_active = false
 var trigger_modals = false
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	t += delta
 	if t > 0.5:
-		if popups_visible:
+		if popups_active:
 			emit_signal("update_popups")
 			trigger_modals = true
 		elif trigger_modals:

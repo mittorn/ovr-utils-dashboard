@@ -53,11 +53,11 @@ func _on_right_button_pressed(button: int) -> void:
 	print(button)
 	if(hidden >= 1):
 		return
-	if OverlayManager.keyboard_target:
+	if ScreenGrab.mouse_target:
 		if(button == 14):
-			OverlayManager.keyboard_target.set_mouse(2, true)
+			ScreenGrab.mouse_target.set_mouse(2, true)
 		if(button == 7):
-			OverlayManager.keyboard_target.set_mouse(3, true)
+			ScreenGrab.mouse_target.set_mouse(3, true)
 	if(button == 1):
 		menu_vis = !menu_vis
 		OverlayManager.set_hide_menu(menu_vis)
@@ -68,12 +68,12 @@ func _on_right_button_release(button: int) -> void:
 		right_grip = false
 	if gi:
 		return
-	if !OverlayManager.keyboard_target:
+	if !ScreenGrab.mouse_target:
 		return
 	if(button == 14):
-		OverlayManager.keyboard_target.set_mouse(2, false)
+		ScreenGrab.mouse_target.set_mouse(2, false)
 	if(button == 7):
-		OverlayManager.keyboard_target.set_mouse(3, false)
+		ScreenGrab.mouse_target.set_mouse(3, false)
 
 
 #	if button == JOY_OCULUS_MENU:

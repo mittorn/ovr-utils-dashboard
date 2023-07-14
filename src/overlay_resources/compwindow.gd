@@ -141,7 +141,7 @@ func set_mouse(button, clicked):
 	if button == 3 and !clicked:
 		#update_watchers()
 		ScreenGrab.t = 0.1
-		ScreenGrab.popups_visible = true
+		ScreenGrab.popups_active = true
 
 func send_scroll(up, count):
 	if desktop_layer:
@@ -165,7 +165,8 @@ func _on_Image_gui_input(event):
 	if desktop_layer:
 		if event.position.y > 0:
 			ScreenGrab.input_func(event)
-			OverlayManager.keyboard_target = self
+			ScreenGrab.keyboard_target = self
+			ScreenGrab.mouse_target = self
 		return
 	if event is InputEventMouseMotion && (!last_pressed||abs(event.position.x - press_x)+abs(event.position.y - press_y) > 55):
 		if abs(last_x - event.position.x) + abs(last_y - event.position.y) > 4 || last_pressed:
@@ -176,15 +177,16 @@ func _on_Image_gui_input(event):
 			elif ScreenGrab.mouse_wid != compwindow.get_id():
 				ScreenGrab.mouse_wid = compwindow.get_id()
 				ScreenGrab.t = 0.1
-				ScreenGrab.popups_visible = true
+				ScreenGrab.popups_active = true
 			#OS.execute('xdotool',['mousemove', '%d' % (event.position.x), '%d' % (event.position.y)])
-			if event.position.y > 0: # && (!ScreenGrab.popups_visible || ScreenGrab.popup_target != compwindow.get_id()):
+			if event.position.y > 0 && (!ScreenGrab.popups_visible || ScreenGrab.popup_target != compwindow.get_id()):
+				ScreenGrab.mouse_target = self
 				compwindow.window_update_mouse(0xFF00 | keystate, raise_flags, event.position.x, event.position.y)
 			last_x = event.position.x
 			last_y = event.position.y
 	if event is InputEventMouseButton:
 		repeat_key = ''
-		OverlayManager.keyboard_target = self
+		ScreenGrab.keyboard_target = self
 		#print(event.position.x)
 		#if abs(event.position.x - press_x)+abs(event.position.y - press_y) > 100:
 		
@@ -200,7 +202,7 @@ func _on_Image_gui_input(event):
 			if !state:
 				update_watchers()
 				ScreenGrab.t = 0.2
-				ScreenGrab.popups_visible = true
+				ScreenGrab.popups_active = true
 		if !last_pressed && event.pressed:
 			press_x = event.position.x
 			press_y = event.position.y

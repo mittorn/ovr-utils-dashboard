@@ -19,7 +19,7 @@ func _physics_process(delta):
 	if OverlayInteractionRoot.gi:
 		return
 	time_delta += delta
-	if !OverlayManager.keyboard_target:
+	if !ScreenGrab.mouse_target:
 		return
 
 	var value = get_parent().get_joystick_axis(1)
@@ -37,10 +37,10 @@ func _physics_process(delta):
 	time_delta = 0
 	if scroll_delta > 0.5:
 		#OS.execute('xdotool',['click', '--repeat', round(scroll_delta/0.5), '--delay', 0, 4])
-		OverlayManager.keyboard_target.send_scroll(true, round(scroll_delta/0.5));
+		ScreenGrab.mouse_target.send_scroll(true, round(scroll_delta/0.5));
 		scroll_delta = 0
 	if scroll_delta < -0.5:
-		OverlayManager.keyboard_target.send_scroll(false, round(-scroll_delta/0.5));
+		ScreenGrab.mouse_target.send_scroll(false, round(-scroll_delta/0.5));
 		#OS.execute('xdotool',['click', '--repeat', round(-scroll_delta/0.5), '--delay', 0, 5])
 		scroll_delta = 0
 	#print(scroll_delta)

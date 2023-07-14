@@ -42,6 +42,7 @@ func apply_keys():
 		row_container.add_child(row_box)
 		for key in row.keys:
 			var btn = key_button.instance()
+			btn.set_focus_mode(0)
 			
 			if not key.has("display"):
 				key.display = key.keycode
@@ -66,6 +67,7 @@ func apply_keys():
 			# horizontal gaps
 			if key.has("gap"):
 				var gapbox = Control.new()
+				gapbox.set_focus_mode(0)
 				gapbox.rect_min_size.x = key.gap * key_size
 				gapbox.name = "Gap"
 				row_box.add_child(gapbox)
@@ -73,6 +75,7 @@ func apply_keys():
 		# vertical gaps
 		if row.has("gap") and row.gap > 0:
 			var gapbox = Control.new()
+			gapbox.set_focus_mode(0)
 			gapbox.rect_min_size.y = row.gap * key_size
 			gapbox.name = "Gap"
 			row_container.add_child(gapbox)
@@ -81,20 +84,20 @@ func apply_keys():
 func key_toggled(state, code):
 	if state:
 		#GDVK.key_down(code)
-		OverlayManager.keyboard_target.set_key_state(code, true)
+		ScreenGrab.keyboard_target.set_key_state(code, true)
 	else:
 		#GDVK.key_up(code)
-		OverlayManager.keyboard_target.set_key_state(code, false)
+		ScreenGrab.keyboard_target.set_key_state(code, false)
 
 
 func key_down(code):
 	#GDVK.key_down(code)
-	OverlayManager.keyboard_target.set_key_state(code, true)
+	ScreenGrab.keyboard_target.set_key_state(code, true)
 
 
 func key_up(code):
 	#GDVK.key_up(code)
-	OverlayManager.keyboard_target.set_key_state(code, false)
+	ScreenGrab.keyboard_target.set_key_state(code, false)
 	# clear all modifier keys
 	for k in toggle_keys:
 		if k.pressed:

@@ -13,6 +13,8 @@ func update_watchers():
 	if watch_modals:
 		ScreenGrab.modal_target = compwindow.get_id()
 		ScreenGrab.emit_signal('update_modals')
+	if !ScreenGrab.popups_visible:
+		compwindow.window_activate(raise_flags, last_x, last_y)
 
 func find_window():
 	if instance.compwindow_class < 0:

@@ -18,7 +18,7 @@ var y_delta = 0
 func _physics_process(delta):
 	if OverlayInteractionRoot.gi:
 		return
-	if !OverlayManager.keyboard_target:
+	if !ScreenGrab.keyboard_target:
 		return
 	var x = get_parent().get_joystick_axis(0)
 	var y = get_parent().get_joystick_axis(1)
@@ -43,25 +43,25 @@ func _physics_process(delta):
 	
 	if x_delta > 0.2:
 		#OS.execute('xdotool',['key', 'Right'])
-		OverlayManager.keyboard_target.set_key_state('RIGHT',true)
-		OverlayManager.keyboard_target.set_key_state('RIGHT',false)
+		ScreenGrab.keyboard_target.set_key_state('RIGHT',true)
+		ScreenGrab.keyboard_target.set_key_state('RIGHT',false)
 		x_delta = 0
 		y_delta = 0
 	if x_delta < -0.2:
-		OverlayManager.keyboard_target.set_key_state('LEFT',true)
-		OverlayManager.keyboard_target.set_key_state('LEFT',false)
+		ScreenGrab.keyboard_target.set_key_state('LEFT',true)
+		ScreenGrab.keyboard_target.set_key_state('LEFT',false)
 		#OS.execute('xdotool',['key', 'Left'])
 		x_delta = 0
 		y_delta = 0
 	if y_delta > 0.5:
-		OverlayManager.keyboard_target.set_key_state('UP',true)
-		OverlayManager.keyboard_target.set_key_state('UP',false)
+		ScreenGrab.keyboard_target.set_key_state('UP',true)
+		ScreenGrab.keyboard_target.set_key_state('UP',false)
 		y_delta = 0
 		x_delta = 0
 	if y_delta < -0.5:
 		#OS.execute('xdotool',['key', 'Down'])
-		OverlayManager.keyboard_target.set_key_state('DOWN',true)
-		OverlayManager.keyboard_target.set_key_state('DOWN',false)
+		ScreenGrab.keyboard_target.set_key_state('DOWN',true)
+		ScreenGrab.keyboard_target.set_key_state('DOWN',false)
 		y_delta = 0
 		x_delta = 0
 	if x == 0:

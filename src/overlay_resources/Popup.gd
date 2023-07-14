@@ -13,6 +13,7 @@ func find_window():
 		print('popup', window)
 	if instance.compwindow_index == 0:
 		ScreenGrab.popups_visible = (window != 0)
+		ScreenGrab.popups_active = (window != 0)
 	if get_parent():
 		get_parent().get_parent().get_parent().overlay_visible = (window != 0)
 	return window
