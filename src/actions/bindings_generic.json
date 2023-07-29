@@ -1,6 +1,21 @@
 {
 	"bindings" : {
 		"/actions/godot" : {
+		"chords": [
+			{
+				"output": "/actions/godot/in/transparent_mode",
+				"inputs": [
+					[
+						"/user/hand/left/input/x",
+						"click"
+					],
+					[
+						"/user/hand/right/input/grip",
+						"click"
+					]
+				]
+			}
+		],
 			"haptics" : [
 				{
 					"output" : "/actions/godot/out/haptic",
@@ -65,7 +80,26 @@
 					},
 					"mode" : "trackpad",
 					"path" : "/user/hand/right/input/trackpad"
-				}
+				},
+            {
+                "inputs" : {
+                  "touch" : {
+                     "output" : "/actions/godot/in/touch"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/right/input/trackpad"
+            },
+            {
+                "inputs" : {
+                  "touch" : {
+                     "output" : "/actions/godot/in/touch"
+                  }
+               },
+               "mode" : "button",
+               "path" : "/user/hand/left/input/trackpad"
+            }
+
 			]
 		}
 	},

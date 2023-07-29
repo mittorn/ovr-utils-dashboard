@@ -3,7 +3,21 @@
 	"alias_info" : {},
 	"bindings" : {
 		"/actions/godot" : {
-			"haptics" : [
+		"chords": [
+			{
+				"output": "/actions/godot/in/transparent_mode",
+				"inputs": [
+					[
+						"/user/hand/left/input/x",
+						"click"
+					],
+					[
+						"/user/hand/right/input/grip",
+						"click"
+					]
+				]
+			}
+		],			"haptics" : [
 				{
 					"output" : "/actions/godot/out/haptic",
 					"path" : "/user/hand/left/output/haptic"

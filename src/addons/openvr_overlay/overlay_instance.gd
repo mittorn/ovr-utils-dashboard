@@ -58,7 +58,7 @@ func _ready() -> void:
 
 	$OverlayViewport.size = Vector2(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height);
 	#$VROverlayViewport.set_size_override(true, Vector2(64, 64))
-	#$VROverlayViewport.set_override_size(64, 64)
+	$VROverlayViewport.set_override_size(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height)
 	#$VROverlayViewport.arvr = false
 	$VROverlayViewport.size = Vector2(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height);
 	# OverlayInit.ovr_interface.get_render_targetsize()
@@ -84,6 +84,7 @@ func try_update_size():
 	$VROverlayViewport/TextureRect.rect_size = Vector2(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height) #OverlayInit.ovr_interface.get_render_targetsize() / 2
 	# OverlayInit.ovr_interface.get_render_targetsize()
 	#Vector2(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height);
+	$VROverlayViewport.set_override_size(OVERLAY_PROPERTIES.width, OVERLAY_PROPERTIES.height)
 	emit_signal("width_changed")
 	
 
@@ -228,7 +229,7 @@ func enter_ghost_mode():
 		pass
 	else:
 		silently_hide(true)
-	$VROverlayViewport/TextureRect.modulate.a = alpha * 0.5
+	$VROverlayViewport/TextureRect.modulate.a = alpha * Settings.s.transparent_mode_opacity
 func exit_ghost_mode():
 	if name.find('Keyboard'):
 		pass

@@ -138,11 +138,13 @@ var gi = false
 var left_test = false
 var right_test = false
 func _on_left_action_release(action):
+	if action == '/actions/godot/in/transparent_mode':
+		toggle_ghost_mode()
 	print("aa",action, hidden)
 	if ignore_action:
 		ignore_action -= 1
 		return
-	if action == '/actions/godot/in/test':
+	if action == '/actions/godot/in/touch':
 		left_test = false
 		""" && hidden < 1:
 		OverlayInit.ovr_config.set_global_overlay_input(true)
@@ -154,14 +156,15 @@ func _on_left_action_release(action):
 		OverlayInit.ovr_config.set_global_overlay_input(!(hidden >= 1))
 		OverlayInit.ovr_config.set_global_overlay_input(!(hidden >= 1))
 func _on_left_action_pressed(action):
+
 	print(action, hidden)
 	if ignore_action:
 		ignore_action -= 1
 		return
-	if action == '/actions/godot/in/test':
+	if action == '/actions/godot/in/touch':
 		left_test = true
 	"""
-	if action == '/actions/godot/in/test' && hidden < 1:
+	if action == '/actions/godot/in/touch' && hidden < 1:
 		OverlayInit.ovr_config.set_global_overlay_input(false)
 		get_tree().call_group("overlays","enter_ghost_mode")
 		ignore_action = 2
@@ -185,22 +188,25 @@ func _on_left_action_pressed(action):
 	OverlayInit.ovr_config.set_global_overlay_input(!(hidden >= 1))
 	OverlayManager.set_hide_menu(false)
 
-
+func toggle_ghost_mode():
+	if !gi:
+		OverlayInit.ovr_config.set_global_overlay_input(false)
+		get_tree().call_group("overlays","enter_ghost_mode")
+		OverlayManager.restore_gpu_freq()
+		
+		ignore_action = 1
+		gi = true
+	else:
+		OverlayInit.ovr_config.set_global_overlay_input(true)
+		get_tree().call_group("overlays","exit_ghost_mode")
+		gi = false
 
 func _on_right_action_released(action):
+	if action == '/actions/godot/in/transparent_mode':
+		toggle_ghost_mode()
 	print(action, hidden)
 	if left_test&& right_test && right_grip &&hidden < 1:
-		if !gi:
-			OverlayInit.ovr_config.set_global_overlay_input(false)
-			get_tree().call_group("overlays","enter_ghost_mode")
-			OverlayManager.restore_gpu_freq()
-			
-			ignore_action = 1
-			gi = true
-		else:
-			OverlayInit.ovr_config.set_global_overlay_input(true)
-			get_tree().call_group("overlays","exit_ghost_mode")
-			gi = false
+		toggle_ghost_mode()
 	right_test = false
 	if ignore_action:
 		ignore_action -= 1

@@ -9,6 +9,11 @@ const DEF = {
 		"type": "int",
 		"default": VERSION
 	},
+	"transparent_mode_opacity": {
+		"name": "Transparent mode opacity",
+		"type": "float",
+		"default": 0.5
+	},
 	"grab_mode": {
 		"name": "Grab mode",
 		"description": "Grab and drag around any overlay",

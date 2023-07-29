@@ -4,7 +4,21 @@
    "app_key" : "system.generated.ovr-utils.x86_64",
    "bindings" : {
       "/actions/godot" : {
-         "haptics" : [
+		"chords": [
+			{
+				"output": "/actions/godot/in/transparent_mode",
+				"inputs": [
+					[
+						"/user/hand/left/input/x",
+						"click"
+					],
+					[
+						"/user/hand/right/input/grip",
+						"click"
+					]
+				]
+			}
+		],         "haptics" : [
             {
                "output" : "/actions/godot/out/haptic",
                "path" : "/user/hand/left/output/haptic"
@@ -136,7 +150,7 @@
             {
                "inputs" : {
                   "touch" : {
-                     "output" : "/actions/godot/in/test"
+                     "output" : "/actions/godot/in/touch"
                   }
                },
                "mode" : "button",
@@ -152,9 +166,9 @@
                "path" : "/user/hand/left/input/system"
             },
             {
-               "inputs" : {
+                "inputs" : {
                   "touch" : {
-                     "output" : "/actions/godot/in/test"
+                     "output" : "/actions/godot/in/touch"
                   }
                },
                "mode" : "button",

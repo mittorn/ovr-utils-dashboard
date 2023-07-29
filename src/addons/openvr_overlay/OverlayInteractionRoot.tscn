@@ -16,7 +16,7 @@ pause_mode = 2
 [node name="left" type="ARVRController" parent="VR"]
 pause_mode = 2
 script = ExtResource( 3 )
-button_actions = PoolStringArray( "/actions/godot/in/menu", "/actions/godot/in/test" )
+button_actions = PoolStringArray( "/actions/godot/in/menu", "/actions/godot/in/touch", "/actions/godot/in/transparent_mode" )
 
 [node name="HandCollider" parent="VR/left" groups=["left"] instance=ExtResource( 1 )]
 collision_layer = 20
@@ -34,7 +34,7 @@ collide_with_bodies = false
 [node name="right" type="ARVRController" parent="VR"]
 controller_id = 2
 script = ExtResource( 3 )
-button_actions = PoolStringArray( "/actions/godot/in/test" )
+button_actions = PoolStringArray( "/actions/godot/in/touch", "/actions/godot/in/transparent_mode" )
 
 [node name="HandCollider" parent="VR/right" groups=["right"] instance=ExtResource( 1 )]
 collision_layer = 10

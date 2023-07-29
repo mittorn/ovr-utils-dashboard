@@ -16,11 +16,16 @@
 			"requirement" : "mandatory",
 			"type" : "boolean"
 		},
-                {
-                        "name" : "/actions/godot/in/test",
-                        "requirement" : "mandatory",
-                        "type" : "boolean"
-                },
+		{
+			"name" : "/actions/godot/in/transparent_mode",
+			"requirement" : "mandatory",
+			"type" : "boolean"
+		},
+		{
+			"name" : "/actions/godot/in/touch",
+			"requirement" : "suggested",
+			"type" : "boolean"
+		},
 		{
 			"name" : "/actions/godot/in/analog_trigger",
 			"requirement" : "suggested",
