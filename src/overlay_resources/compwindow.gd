@@ -24,7 +24,7 @@ var tex
 var id
 var raise_flags = 3
 var desktop_layer = false
-func update_texture():
+func update_texture(set_size):
 	desktop_layer = false
 	if not tex:
 		tex = ExternalTexture.new()
@@ -39,31 +39,38 @@ func update_texture():
 	#s.margin_left = 0
 	#s.margin_right = compwindow.get_width();
 	#s.margin_bottom = compwindow.get_height()+40;
-	s.rect_size = Vector2(compwindow.get_width(), compwindow.get_height())
-	s.rect_position = Vector2(0,40)
+	if set_size:
+		s.rect_size = Vector2(compwindow.get_width(), compwindow.get_height())
+		s.rect_position = Vector2(0,40)
 	tex.flags = 0
 	s.texture = tex
 
 func _draw() -> void:
 	if compwindow.get_id() && !tex:
-		update_texture()
+		update_texture(true)
 
 func find_window():
 	return 0
 
 
 func update_window(first = false):
+	var old_width = compwindow.get_width()
+	var old_height = compwindow.get_height()
 	var window = find_window()
+	var width = compwindow.get_width()
+	var height = compwindow.get_height()
+	var set_size = false
 	$Buttons/Index.text = str(instance.compwindow_index)
-	if window:
-		OVERLAY_PROPERTIES.width  = max(compwindow.get_width(), 320)
-		OVERLAY_PROPERTIES.height = max(compwindow.get_height()+40, 40)
+	if window && (width != old_width) || (height != old_height):
+		set_size = true
+		OVERLAY_PROPERTIES.width  = max(width, 320)
+		OVERLAY_PROPERTIES.height = max(height+40, 40)
 		if !first:
 			instance.OVERLAY_PROPERTIES.width = OVERLAY_PROPERTIES.width
 			instance.OVERLAY_PROPERTIES.height = OVERLAY_PROPERTIES.height
 			instance.try_update_size()
 	if !first:
-		update_texture()
+		update_texture(set_size)
 	pass
 
 func _on_ButtonPrev_pressed():
@@ -136,7 +143,8 @@ func set_mouse(button, clicked):
 	var b = 0x100 << (button - 1)
 	if !clicked:
 		b = 0
-	compwindow.window_update_mouse(b | keystate, raise_flags, last_x, last_y)
+	if last_y > 0:
+		compwindow.window_update_mouse(b | keystate, raise_flags, last_x, last_y)
 	repeat_key = ''
 	if button == 3 and !clicked:
 		#update_watchers()
@@ -169,7 +177,7 @@ func _on_Image_gui_input(event):
 			ScreenGrab.mouse_target = self
 		return
 	if event is InputEventMouseMotion && (!last_pressed||abs(event.position.x - press_x)+abs(event.position.y - press_y) > 55):
-		if abs(last_x - event.position.x) + abs(last_y - event.position.y) > 4 || last_pressed:
+		if event.position.y > 0 and abs(last_x - event.position.x) + abs(last_y - event.position.y) > 4 || last_pressed:
 			if OverlayManager.desktop_active:
 				compwindow.window_activate(raise_flags, event.position.x, event.position.y )
 				update_watchers()
@@ -179,7 +187,7 @@ func _on_Image_gui_input(event):
 				ScreenGrab.t = 0.1
 				ScreenGrab.popups_active = true
 			#OS.execute('xdotool',['mousemove', '%d' % (event.position.x), '%d' % (event.position.y)])
-			if event.position.y > 0 && (!ScreenGrab.popups_visible || ScreenGrab.popup_target != compwindow.get_id()):
+			if (!ScreenGrab.popups_visible || ScreenGrab.popup_target != compwindow.get_id()):
 				ScreenGrab.mouse_target = self
 				compwindow.window_update_mouse(0xFF00 | keystate, raise_flags, event.position.x, event.position.y)
 			last_x = event.position.x

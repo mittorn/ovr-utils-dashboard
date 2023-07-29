@@ -11,14 +11,14 @@ const OVERLAY_PROPERTIES = {
 onready var main_control = $Control
 onready var overlays_control = $Control/PanelContainer/Overlays
 onready var apps_control = $Control/MainVBox/PanelContainer/RunningApps
-
+onready var panel = $Control/PanelContainer
 func _ready() -> void:
 	OverlayManager.connect("added_overlay", self, "_add_overlay_to_list")
 	OverlayManager.connect("removed_overlay", self, "_remove_overlay_from_list")
 	for o in Settings.s.overlays:
 		if o != "MainOverlay":
 			_add_overlay_to_list(o)
-	$Control/PanelContainer.visible = false
+	panel.visible = false
 	fill_script_list()
 	update_running_apps(true)
 	OverlayManager.get_node("MainOverlay").connect('overlay_visible_changed2',self, 'update_running_apps')
@@ -110,10 +110,18 @@ func _on_Pause_toggled(state: bool) -> void:
 	#OverlayManager.set_hide_all(true)
 	OverlayManager.run_dashboard(state)
 	#OverlayInteractionRoot.center_world()
+var instance
+func pre_prop_callback(_instance):
+	instance = _instance
 
 func _on_ShowOverlays_toggled(state: bool) -> void:
 	overlays_control.visible = state
-	$Control/PanelContainer.visible = state
+	panel.visible = state
+#	if overlays_control.get_rect().size.y > OVERLAY_PROPERTIES.height:
+#		OVERLAY_PROPERTIES.height = overlays_control.get_rect().size.y 
+#		instance.OVERLAY_PROPERTIES.height = OVERLAY_PROPERTIES.height
+#		instance.try_update_size()
+#		#self.rect_position.y = OVERLAY_PROPERTIES.height - 1024
 
 
 func _on_AddOverlay_toggled(state: bool) -> void:
@@ -121,7 +129,7 @@ func _on_AddOverlay_toggled(state: bool) -> void:
 
 
 func _on_QuitToggle_toggled(state: bool) -> void:
-	$MainBar/QuitToggle/Quit.visible = state
+	$Quit.visible = state
 
 
 func _on_Quit_pressed() -> void:
@@ -135,3 +143,25 @@ func _on_add_menu_closed() -> void:
 
 func _on_Recenter_pressed():
 	OverlayInteractionRoot.center_world()
+
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == 4:
+			scroll_overlays(true)
+		if event.button_index == 5:
+			scroll_overlays(false)
+	if event is InputEventKey:
+		if event.scancode == KEY_UP:
+			scroll_overlays(true)
+		if event.scancode == KEY_DOWN:
+			scroll_overlays(false)
+		
+
+func scroll_overlays(up):
+	if panel.visible and overlays_control.rect_size.y > OVERLAY_PROPERTIES.height:
+		if up:
+			if panel.rect_position.y <= overlays_control.rect_size.y - OVERLAY_PROPERTIES.height+208:
+				panel.rect_position.y += 208 / 4
+		else:
+			if panel.rect_position.y >= 0:
+				panel.rect_position.y -= 208 / 4

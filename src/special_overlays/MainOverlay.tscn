@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://overlay_resources/main_menu.gd" type="Script" id=1]
 [ext_resource path="res://icons/move.svg" type="Texture" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://ui/AddMenu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/ListRunningAppItem.tscn" type="PackedScene" id=9]
 [ext_resource path="res://icons/reset.svg" type="Texture" id=10]
-[ext_resource path="res://ui/overlay_list_item.gd" type="Script" id=11]
 
 [node name="MainOverlay" type="Control"]
 pause_mode = 2
@@ -71,18 +70,6 @@ margin_bottom = 176.0
 rect_pivot_offset = Vector2( -1562, 41 )
 toggle_mode = true
 icon = ExtResource( 4 )
-
-[node name="Quit" type="Button" parent="MainBar/QuitToggle"]
-visible = false
-margin_left = -4.0
-margin_top = -199.0
-margin_right = 915.0
-margin_bottom = -8.0
-text = "Really quit?"
-icon = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Control2" type="Control" parent="."]
 margin_left = 8.0
@@ -188,7 +175,6 @@ __meta__ = {
 margin_top = 0.0
 margin_right = 2016.0
 margin_bottom = 208.0
-script = ExtResource( 11 )
 overlay_name = "MainOverlay"
 
 [node name="AddMenu" parent="Control" instance=ExtResource( 8 )]
@@ -201,10 +187,22 @@ margin_bottom = 1864.0
 size_flags_horizontal = 0
 size_flags_vertical = 10
 
+[node name="Quit" type="Button" parent="."]
+visible = false
+margin_left = 724.0
+margin_top = 1673.0
+margin_right = 1643.0
+margin_bottom = 1864.0
+text = "Really quit?"
+icon = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="toggled" from="MainBar/ShowOverlays" to="." method="_on_ShowOverlays_toggled"]
 [connection signal="toggled" from="MainBar/AddOverlay" to="." method="_on_AddOverlay_toggled"]
 [connection signal="toggled" from="MainBar/GrabMode" to="." method="_on_GrabMode_toggled"]
 [connection signal="pressed" from="MainBar/Recenter" to="." method="_on_Recenter_pressed"]
 [connection signal="toggled" from="MainBar/QuitToggle" to="." method="_on_QuitToggle_toggled"]
-[connection signal="pressed" from="MainBar/QuitToggle/Quit" to="." method="_on_Quit_pressed"]
 [connection signal="add_menu_closed" from="Control/AddMenu" to="." method="_on_add_menu_closed"]
+[connection signal="pressed" from="Quit" to="." method="_on_Quit_pressed"]

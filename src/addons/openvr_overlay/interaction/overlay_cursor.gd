@@ -147,9 +147,25 @@ func set_key_state(key, pressed):
 	viewport.input(key_event)
 
 func send_scroll(up, count):
-	pass
+	var i = 0
+	var b
+	if up:
+		b = 4
+	else:
+		b = 5
+	while i < count:
+		set_mouse(b, true)
+		set_mouse(b, false)
+		i = i+1
+
 func set_mouse(button,pressed):
-	pass
+	var click_event = InputEventMouseButton.new()
+	if active_side!= '':
+		click_event.position = cursor_pos[active_side]
+	click_event.pressed = pressed
+	click_event.button_index = button
+	viewport.input(click_event)
+
 func _send_click_event(state: bool, controller: String):
 	if click[controller] == state:
 		return # already in that state

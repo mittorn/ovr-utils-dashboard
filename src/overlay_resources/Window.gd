@@ -13,8 +13,8 @@ func update_watchers():
 	if watch_modals:
 		ScreenGrab.modal_target = compwindow.get_id()
 		ScreenGrab.emit_signal('update_modals')
-	if !ScreenGrab.popups_visible:
-		compwindow.window_activate(raise_flags, last_x, last_y)
+#	if !ScreenGrab.popups_visible:
+#		compwindow.window_activate(raise_flags, last_x, last_y)
 
 func find_window():
 	if instance.compwindow_class < 0:
@@ -38,7 +38,7 @@ func _on_DesktopToggle_toggled(button_pressed):
 		s.rect_size = Vector2(ScreenGrab.screengrab.get_width(),ScreenGrab.screengrab.get_height())
 		s.rect_position = Vector2(-compwindow.get_x(), -compwindow.get_y()+40)
 	else:
-		update_texture()
+		update_texture(true)
 
 func _on_PrevClass_pressed():
 	instance.compwindow_class -= 1
