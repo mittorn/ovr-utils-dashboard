@@ -6,7 +6,7 @@
 				"output": "/actions/godot/in/transparent_mode",
 				"inputs": [
 					[
-						"/user/hand/left/input/x",
+						"/user/hand/left/input/a",
 						"click"
 					],
 					[
