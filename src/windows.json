@@ -1,7 +1,8 @@
 [
 	["term", "WM_CLASS", "konsole", 3],
-	["brsw", "WM_CLASS", "Navigator", 1],
+	["brsw", "WM_CLASS", "Pale moon", 1],
 	["ovras", "WM_CLASS", "AdvancedSettings", 0],
 	["godot", "WM_CLASS", "Godot_Editor", 1],
+	["qjctl", "WM_CLASS", "qjackctl", 1],
 	["kcalc", "WM_CLASS", "kcalc", 1]
 ]
